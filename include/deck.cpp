@@ -1,0 +1,26 @@
+// deck.cpp
+
+#include <vector>																		// std::vector
+#include <algorithm>																	// std::shuffle
+#include <random>																		// std::default_random_engine
+#include <chrono>																		// std::chrono::system_clock
+
+#include "card.h"
+#include "stack.h"
+#include "deck.h"
+
+deck::deck()
+{
+	std::vector<card> vDeck;															// Needed here because one can't shuffle a stack adaptor
+
+	unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();		// Obtains a time-based seed for the shuffle algorithm.
+	
+	for(iSuit = SPADES; iSuit <= CLUBS; iSuit++)
+		for(iFigure = ACE; iFigure <= KING; iFigure++)
+			vDeck.push_back(const card(iFigure, iSuit));								// Creates the cards.
+
+	std::shuffle(vDeck.begin(), vDeck.end(), std::default_random_engine(seed));			// Shuffles the cards.
+
+	crdStack = vDeck;																	// Copies the shuffled deck to the property.
+}
+
