@@ -3,65 +3,72 @@
 // Program to test the card class
 
 
-#include <iostream>
-#include <string>
+#include <iostream>						// std::cout
+#include <string>						// std::string
 
 #include "include/card.h"
 
 
 int main()
 {
-	std::string sNumber = "";
+	std::string sFigure = "";			// Output strings.
 	std::string sSuit = "";
 
-	card crdCard(QUEEN, HEARTS);
+	card crdCard(QUEEN, HEARTS);		// What if the card has no suit?
 
-	switch(crdCard.number())
+	switch(crdCard.figure())			// TODO: Move the switches to a function.
 	{
+		case JOKER:
+			sFigure = "Joker";
+			break;
+
 		case ACE:
-			sNumber = "Ace";
+			sFigure = "Ace";
 			break;
 
 		case JACK:
-			sNumber = "Jack";
+			sFigure = "Jack";
 			break;
 
 		case QUEEN:
-			sNumber = "Queen";
+			sFigure = "Queen";
 			break;
 
 		case KING:
-			sNumber = "King";
+			sFigure = "King";
 			break;
 
 		default:
-			sNumber = std::to_string(crdCard.number());
+			sFigure = std::to_string(crdCard.figure());		// The figure is a number.
 	}
 
 	switch(crdCard.suit())
 	{
+		case SUITLESS:					// It's a joker.
+			sSuit = "";
+			break;
+
 		case SPADES:
-			sSuit = "Spades";
+			sSuit = " of Spades";
 			break;
 
 		case HEARTS:
-			sSuit = "Hearts";
+			sSuit = " of Hearts";
 			break;
 
 		case DIAMONDS:
-			sSuit = "Diamonds";
+			sSuit = " of Diamonds";
 			break;
 
 		case CLUBS:
-			sSuit = "Clubs";
+			sSuit = " of Clubs";
 	}
 
-	std::cout	<< std::endl
-				<< sNumber
-				<< " of "
-				<< sSuit
-				<< std::endl
-				<< std::endl;
+	std::cout << std::endl				// TODO: The output could be a function too.
+		<< sFigure
+		<< sSuit
+		<< std::endl
+		<< std::endl;
 
 	return 0;
 }
