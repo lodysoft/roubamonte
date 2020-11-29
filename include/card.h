@@ -7,8 +7,8 @@
 
 #include <stdexcept>										// For std::out_of_range().
 
-enum {SUITLESS, SPADES, HEARTS, DIAMONDS, CLUBS};				// Suits - because a joker has no suit, suit 0 now means no suit.
-enum {JOKER, ACE, JACK = 11, QUEEN = 12, KING = 13};		// Figures
+enum {SUITLESS, SPADES, HEARTS, DIAMONDS, CLUBS};			// Suits - because a joker has no suit, suit 0 now means no suit.
+enum {JOKER, ACE, JACK = 11, QUEEN, KING};					// Figures
 
 class card
 {
