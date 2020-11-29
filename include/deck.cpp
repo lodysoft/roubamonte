@@ -18,8 +18,8 @@ deck::deck()
 	for(int i = 0; i < 2; i++)															// Creates two jokers.
 		vDeck.push_back(const card(JOKER, SUITLESS));
 	
-	for(iSuit = SPADES; iSuit <= CLUBS; iSuit++)										// Creates the cards.
-		for(iFigure = ACE; iFigure <= KING; iFigure++)
+	for(int iSuit = SPADES; iSuit <= CLUBS; iSuit++)										// Creates the cards.
+		for(int iFigure = ACE; iFigure <= KING; iFigure++)
 			vDeck.push_back(const card(iFigure, iSuit));
 
 	std::shuffle(vDeck.begin(), vDeck.end(), std::default_random_engine(seed));			// Shuffles the cards.
