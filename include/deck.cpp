@@ -11,13 +11,16 @@
 
 deck::deck()
 {
-	std::vector<card> vDeck;															// Needed here because one can't shuffle a stack adaptor
+	std::vector<card> vDeck;															// Needed here because one can't shuffle a stack adaptor.
 
 	unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();		// Obtains a time-based seed for the shuffle algorithm.
 	
-	for(iSuit = SPADES; iSuit <= CLUBS; iSuit++)
+	for(int i = 0; i < 2; i++)															// Creates two jokers.
+		vDeck.push_back(const card(JOKER, SUITLESS));
+	
+	for(iSuit = SPADES; iSuit <= CLUBS; iSuit++)										// Creates the cards.
 		for(iFigure = ACE; iFigure <= KING; iFigure++)
-			vDeck.push_back(const card(iFigure, iSuit));								// Creates the cards.
+			vDeck.push_back(const card(iFigure, iSuit));
 
 	std::shuffle(vDeck.begin(), vDeck.end(), std::default_random_engine(seed));			// Shuffles the cards.
 
