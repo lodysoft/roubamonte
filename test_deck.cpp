@@ -2,9 +2,7 @@
 
 // Program to test the deck class
 
-
 #include "include/deck.h"
-
 
 int main()
 {

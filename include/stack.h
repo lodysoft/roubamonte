@@ -12,7 +12,6 @@
 class stack
 {
 public:
-	stack();							// Default constructor.
 	const card pop();					// Takes a card from the stack.
 	void push(const card crdCard);		// Puts a card on the top of the stack.
 

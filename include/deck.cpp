@@ -6,7 +6,6 @@
 #include <chrono>																		// std::chrono::system_clock
 
 #include "card.h"
-#include "stack.h"
 #include "deck.h"
 
 deck::deck()
