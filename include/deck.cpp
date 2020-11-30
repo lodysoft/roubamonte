@@ -16,14 +16,15 @@ deck::deck()
 	unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();		// Obtains a time-based seed for the shuffle algorithm.
 	
 	for(int i = 0; i < 2; i++)															// Creates two jokers.
-		vDeck.push_back(const card(JOKER, SUITLESS));
+		vDeck.push_back(card(JOKER, SUITLESS));
 	
-	for(int iSuit = SPADES; iSuit <= CLUBS; iSuit++)										// Creates the cards.
+	for(int iSuit = SPADES; iSuit <= CLUBS; iSuit++)									// Creates the cards.
 		for(int iFigure = ACE; iFigure <= KING; iFigure++)
-			vDeck.push_back(const card(iFigure, iSuit));
+			vDeck.push_back(card(iFigure, iSuit));
 
 	std::shuffle(vDeck.begin(), vDeck.end(), std::default_random_engine(seed));			// Shuffles the cards.
 
-	crdStack = vDeck;																	// Copies the shuffled deck to the property.
+	for(card crdCard: vDeck)															// Copies the shuffled deck to the property.
+		crdStack.push(crdCard);
 }
 

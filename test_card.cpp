@@ -1,4 +1,4 @@
-// cards.cpp
+// test_card.cpp
 
 // Program to test the card class
 
