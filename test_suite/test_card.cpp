@@ -2,21 +2,28 @@
 
 // Program to test the card class
 
-
 #include <iostream>						// std::cout
 #include <string>						// std::string
 
 #include "include/card.h"
 
+std::ostream& operator<<(std::ostream& osOut, card& crdCard);
 
 int main()
+{
+	card crdCard(QUEEN, HEARTS);		// Invokes the constructor.
+
+	std::cout << std::endl << crdCard << std::endl << std::endl;
+
+	return 0;
+}
+
+std::ostream& operator<<(std::ostream& osOut, card& crdCard)
 {
 	std::string sFigure = "";			// Output strings.
 	std::string sSuit = "";
 
-	card crdCard(QUEEN, HEARTS);		// What if the card has no suit?
-
-	switch(crdCard.figure())			// TODO: Move the switches to a function.
+	switch(crdCard.figure())
 	{
 		case JOKER:
 			sFigure = "Joker";
@@ -64,12 +71,8 @@ int main()
 			sSuit = " of Clubs";
 	}
 
-	std::cout << std::endl				// TODO: The output could be a function too.
-		<< sFigure
-		<< sSuit
-		<< std::endl
-		<< std::endl;
+	osOut << sFigure << sSuit;
 
-	return 0;
+	return osOut;
 }
 
