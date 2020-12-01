@@ -8,7 +8,7 @@
 #include "card.h"
 #include "deck.h"
 
-deck::deck()
+deck::deck()																			// Constructor.
 {
 	std::vector<card> vDeck;															// Needed here because one can't shuffle a stack adaptor.
 
@@ -27,3 +27,4 @@ deck::deck()
 		crdStack.push(crdCard);
 }
 
+const bool deck::isEmpty() const {return crdStack.empty();}								// Informs whether we became out of cards.

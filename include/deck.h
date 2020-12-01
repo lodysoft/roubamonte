@@ -11,7 +11,8 @@ class deck: public stack
 {
 public:
 	deck();
-	
+	const bool isEmpty() const;
+
 };
 
 #endif

@@ -1,11 +1,14 @@
 // card_output.h
 
+#ifndef CARD_OUTPUT_H
+#define CARD_OUTPUT_H
+
 #include <iostream>						// std::cout
 #include <string>						// std::string
 
 #include "../../include/card.h"
 
-std::ostream& operator<<(std::ostream& osOut, card& crdCard)
+std::ostream& operator<<(std::ostream& osOut, card crdCard)
 {
 	std::string sFigure = "";			// Output strings.
 	std::string sSuit = "";
@@ -62,4 +65,6 @@ std::ostream& operator<<(std::ostream& osOut, card& crdCard)
 
 	return osOut;
 }
+
+#endif
 
