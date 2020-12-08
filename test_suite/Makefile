@@ -2,6 +2,7 @@
 #OBJS = source.cpp source2.cpp ...
 SRC_CARD = test_card.cpp ../include/card.cpp
 SRC_DECK = test_deck.cpp ../include/deck.cpp ../include/stack.cpp ../include/card.cpp
+SRC_TABLE = test_table.cpp ../include/table.cpp
 
 #CC specifies which compiler we're using
 CC = g++
@@ -27,4 +28,8 @@ card : $(SRC_CARD)
 #This is the target that compiles test_deck.cpp
 deck : $(SRC_DECK)
 	$(CC) $(COMPILER_FLAGS) $(SRC_DECK)
+
+#This is the target that compiles test_deck.cpp
+table : $(SRC_TABLE)
+	$(CC) $(COMPILER_FLAGS) $(SRC_TABLE)
 
