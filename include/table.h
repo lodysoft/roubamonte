@@ -6,11 +6,12 @@
 #include <list>
 
 #include "card.h"
+#include "deck.h"
 
 class table
 {
 public:
-	table();		// Default constructor.
+	table(deck& dckDeck);		// Default constructor.
 
 private:
 	std::list<card> crdList;

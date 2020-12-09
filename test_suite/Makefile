@@ -2,7 +2,7 @@
 #OBJS = source.cpp source2.cpp ...
 SRC_CARD = test_card.cpp ../include/card.cpp
 SRC_DECK = test_deck.cpp ../include/deck.cpp ../include/stack.cpp ../include/card.cpp
-SRC_TABLE = test_table.cpp ../include/table.cpp
+SRC_TABLE = test_table.cpp ../include/table.cpp ../include/deck.cpp ../include/stack.cpp ../include/card.cpp
 SRC_HAND = test_hand.cpp ../include/hand.cpp
 
 #CC specifies which compiler we're using

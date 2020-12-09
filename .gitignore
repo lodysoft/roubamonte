@@ -32,3 +32,5 @@
 *.out
 *.app
 
+# Sublime shit
+*.sublime*
