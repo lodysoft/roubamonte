@@ -12,3 +12,5 @@ Code style convention:
 
 4) Curly braces in a new line, so they **match** each other vertically. *"While"* also in a new line.
 
+5) Pointer declaration asterisks stick to the **type** instead of the variable name. No space before, one space after.
+
