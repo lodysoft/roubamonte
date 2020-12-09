@@ -3,6 +3,7 @@
 SRC_CARD = test_card.cpp ../include/card.cpp
 SRC_DECK = test_deck.cpp ../include/deck.cpp ../include/stack.cpp ../include/card.cpp
 SRC_TABLE = test_table.cpp ../include/table.cpp
+SRC_HAND = test_hand.cpp ../include/hand.cpp
 
 #CC specifies which compiler we're using
 CC = g++
@@ -29,7 +30,11 @@ card : $(SRC_CARD)
 deck : $(SRC_DECK)
 	$(CC) $(COMPILER_FLAGS) $(SRC_DECK)
 
-#This is the target that compiles test_deck.cpp
+#This is the target that compiles test_table.cpp
 table : $(SRC_TABLE)
 	$(CC) $(COMPILER_FLAGS) $(SRC_TABLE)
+
+#This is the target that compiles test_hand.cpp
+hand : $(SRC_HAND)
+	$(CC) $(COMPILER_FLAGS) $(SRC_HAND)
 
