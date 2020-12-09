@@ -8,7 +8,7 @@ Code style convention:
 
 2) Function names should be *lowercase_with_underscores_where_spaces_should_be*. Python style.
 
-3) Spaces before and after comparison, assignment, arithmetic and stream operators. **No** spaces inside parentheses, square brackets or curly braces.
+3) Spaces before and after comparison, assignment, arithmetic and stream operators. **No** spaces inside parentheses, square and angle brackets or curly braces.
 
 4) Curly braces in a new line, so they **match** each other vertically. *"While"* also in a new line.
 
