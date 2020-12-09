@@ -10,5 +10,5 @@ Code style convention:
 
 3) Spaces before and after comparison, assignment, arithmetic and stream operators. **No** spaces inside parentheses, square brackets or curly braces.
 
-4) Curly braces in a newline, so they **match** each other vertically.
+4) Curly braces in a new line, so they **match** each other vertically. *"While"* also in a new line.
 
