@@ -11,7 +11,8 @@
 class table
 {
 public:
-	table(deck& dckDeck);		// Default constructor.
+	table(deck& dckDeck);						// Default constructor.
+	const std::list<card> getCards() const;		// Getter for the whole table.
 
 private:
 	std::list<card> crdList;

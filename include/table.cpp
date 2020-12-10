@@ -10,3 +10,8 @@ table::table(deck& dckDeck)						// Default constructor.
 	}
 }
 
+const std::list<card> table::getCards() const	// Getter for the whole table.
+{
+	return crdList;
+}
+

@@ -5,7 +5,7 @@
 #include <iostream>						// std::cout
 
 #include "../include/card.h"
-#include "include/card_output.h"
+#include "include/output.h"
 
 int main()
 {

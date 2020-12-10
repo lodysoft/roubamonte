@@ -5,7 +5,7 @@
 #include <iostream>
 
 #include "../include/deck.h"
-#include "include/deck_output.h"
+#include "include/output.h"
 
 int main()
 {
