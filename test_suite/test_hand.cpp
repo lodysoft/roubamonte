@@ -1,6 +1,6 @@
 // test_hand.cpp
 
-#include <iostream>
+#include <iostream>										// std::cout
 
 #include "../include/deck.h"
 #include "../include/hand.h"
