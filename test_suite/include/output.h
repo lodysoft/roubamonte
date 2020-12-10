@@ -10,6 +10,8 @@
 
 #include "../../include/card.h"
 #include "../../include/deck.h"
+#include "../../include/table.h"
+#include "../../include/hand.h"
 
 std::ostream& operator<<(std::ostream& osOut, card crdCard)			// Card output.
 {
@@ -79,9 +81,20 @@ std::ostream& operator<<(std::ostream& osOut, deck dckDeck)			// Deck output.
 	return osOut;
 }
 
-std::ostream& operator<<(std::ostream& osOut, table tblTable)		// Table output.
+std::ostream& operator<<(std::ostream& osOut, table tblTable)		// Table output. Serious template function candidate.
 {
 	std::list<card> crdCards = tblTable.getCards();
+
+	for(card crdCard: crdCards)
+		osOut << "[" << crdCard << "]"
+			<< (crdCard.figure() == crdCards.back().figure() && crdCard.suit() == crdCards.back().suit()? "": ", ");
+
+	return osOut;
+}
+
+std::ostream& operator<<(std::ostream& osOut, hand hndHand)			// Hand output. You see? That's awfully redundant.
+{
+	std::list<card> crdCards = hndHand.getCards();
 
 	for(card crdCard: crdCards)
 		osOut << "[" << crdCard << "]"

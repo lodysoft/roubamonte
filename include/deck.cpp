@@ -28,3 +28,4 @@ deck::deck()																			// Constructor.
 }
 
 const bool deck::isEmpty() const {return crdStack.empty();}								// Informs whether we became out of cards.
+

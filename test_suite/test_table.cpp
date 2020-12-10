@@ -8,11 +8,11 @@
 
 int main()
 {
-	deck dckDeck;
+	deck dckDeck;											// Creates a deck.
 
-	table tblTable(dckDeck);
+	table tblTable(dckDeck);								// Put eight cards from the deck on the table.
 
-	std::cout << tblTable << std::endl << std::endl;
+	std::cout << tblTable << std::endl << std::endl;		// Shows the table contents.
 
 	return 0;
 }

@@ -2,8 +2,19 @@
 
 #include "hand.h"
 
-hand::hand()		// Default constructor.
+hand::hand(deck& dckDeck)										// Default constructor.
 {
-	// TODO: Initialise with 4 cards from the deck. Or not.
+	for(int i = 0; i < 4; i++)
+	{
+		crdList.push_back(dckDeck.pop());						// Takes four cards from the top of the main stack.
+	}
+
+}
+
+const bool hand::isEmpty() const {return crdList.empty();}		// Informs whether we became out of cards.
+
+const std::list<card> hand::getCards() const					// Getter for the whole hand.
+{
+	return crdList;
 }
 

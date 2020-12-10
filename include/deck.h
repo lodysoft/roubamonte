@@ -10,8 +10,8 @@
 class deck: public stack
 {
 public:
-	deck();
-	const bool isEmpty() const;
+	deck();							// Default constructor
+	const bool isEmpty() const;		// Tests whether the cards are over.
 
 };
 
