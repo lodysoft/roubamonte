@@ -4,7 +4,7 @@
 
 hand::hand(deck& dckDeck)										// Default constructor.
 {
-	for(int i = 0; i < 4; i++)
+	for(int i = 0; i < HAND_INITIAL_CARDS; i++)
 	{
 		crdList.push_back(dckDeck.pop());						// Takes four cards from the top of the main stack.
 	}

@@ -8,6 +8,8 @@
 #include "card.h"
 #include "deck.h"
 
+const int TABLE_INITIAL_CARDS = 8;
+
 class table
 {
 public:

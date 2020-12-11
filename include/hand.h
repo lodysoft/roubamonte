@@ -8,6 +8,8 @@
 #include "card.h"
 #include "deck.h"
 
+const int HAND_INITIAL_CARDS = 4;
+
 class hand
 {
 public:

@@ -5,7 +5,7 @@
 #ifndef CARD_H
 #define CARD_H
 
-#include <stdexcept>										// For std::out_of_range().
+#include <stdexcept>										// std::out_of_range()
 
 enum {SUITLESS, SPADES, HEARTS, DIAMONDS, CLUBS};			// Suits - because a joker has no suit, suit 0 now means no suit.
 enum {JOKER, ACE, JACK = 11, QUEEN, KING};					// Figures.
