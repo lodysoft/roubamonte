@@ -5,17 +5,17 @@
 #ifndef OUTPUT_H
 #define OUTPUT_H
 
-#include <iostream>													// std::cout
-#include <string>													// std::string
+#include <iostream>																		// std::cout
+#include <string>																		// std::string
 
 #include "../../include/card.h"
 #include "../../include/deck.h"
 #include "../../include/table.h"
 #include "../../include/hand.h"
 
-std::ostream& operator<<(std::ostream& osOut, card crdCard)			// Card output.
+std::ostream& operator<<(std::ostream& osOut, card crdCard)								// Card output.
 {
-	std::string sFigure = "";										// Output strings.
+	std::string sFigure = "";															// Output strings.
 	std::string sSuit = "";
 
 	switch(crdCard.figure())
@@ -41,12 +41,12 @@ std::ostream& operator<<(std::ostream& osOut, card crdCard)			// Card output.
 			break;
 
 		default:
-			sFigure = std::to_string(crdCard.figure());				// The figure is a number.
+			sFigure = std::to_string(crdCard.figure());									// The figure is a number.
 	}
 
 	switch(crdCard.suit())
 	{
-		case SUITLESS:												// It's a joker.
+		case SUITLESS:																	// It's a joker.
 			sSuit = "";
 			break;
 
@@ -71,9 +71,9 @@ std::ostream& operator<<(std::ostream& osOut, card crdCard)			// Card output.
 	return osOut;
 }
 
-std::ostream& operator<<(std::ostream& osOut, deck dckDeck)			// Deck output.
+std::ostream& operator<<(std::ostream& osOut, deck dckDeck)								// Deck output.
 {
-	osOut << "[" << dckDeck.pop() << "]";							// TODO: improve this algorithm.
+	osOut << "[" << dckDeck.pop() << "]";												// TODO: improve this algorithm.
 
 	while(!dckDeck.isEmpty())
 		osOut << ", [" << dckDeck.pop() << "]";
@@ -81,23 +81,12 @@ std::ostream& operator<<(std::ostream& osOut, deck dckDeck)			// Deck output.
 	return osOut;
 }
 
-std::ostream& operator<<(std::ostream& osOut, table tblTable)		// Table output. Serious template function candidate.
+template <typename T> std::ostream& operator<<(std::ostream& osOut, T& tContainer)		// Hand or table output.
 {
-	std::list<card> crdCards = tblTable.getCards();
+	std::list<card> crdCards = tContainer.getCards();
 
 	for(card crdCard: crdCards)
-		osOut << "[" << crdCard << "]"
-			<< (crdCard.figure() == crdCards.back().figure() && crdCard.suit() == crdCards.back().suit()? "": ", ");
-
-	return osOut;
-}
-
-std::ostream& operator<<(std::ostream& osOut, hand hndHand)			// Hand output. You see? That's awfully redundant.
-{
-	std::list<card> crdCards = hndHand.getCards();
-
-	for(card crdCard: crdCards)
-		osOut << "[" << crdCard << "]"
+		osOut << '[' << crdCard << ']'
 			<< (crdCard.figure() == crdCards.back().figure() && crdCard.suit() == crdCards.back().suit()? "": ", ");
 
 	return osOut;

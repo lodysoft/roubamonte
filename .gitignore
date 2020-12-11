@@ -34,3 +34,9 @@
 
 # Sublime shit
 *.sublime*
+
+# Local backup files
+*~
+*.backup
+*.bak
+
