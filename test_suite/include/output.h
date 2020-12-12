@@ -81,12 +81,12 @@ std::ostream& operator<<(std::ostream& osOut, deck dckDeck)								// Deck outpu
 	return osOut;
 }
 
-template <typename T> std::ostream& operator<<(std::ostream& osOut, T& tContainer)		// Hand or table output.
+template<typename T, typename U = decltype(std::declval<T>().getCards())> std::ostream& operator<<(std::ostream& osOut, T& tContainer)		// Hand or table output.
 {
 	std::list<card> crdCards = tContainer.getCards();
 
 	for(card crdCard: crdCards)
-		osOut << '[' << crdCard << ']'
+		osOut << "[" << crdCard << "]"
 			<< (crdCard.figure() == crdCards.back().figure() && crdCard.suit() == crdCards.back().suit()? "": ", ");
 
 	return osOut;
