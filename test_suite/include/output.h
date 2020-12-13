@@ -7,6 +7,7 @@
 
 #include <iostream>																		// std::cout
 #include <string>																		// std::string
+#include <list>																			// std::list
 
 #include "../../include/card.h"
 #include "../../include/deck.h"

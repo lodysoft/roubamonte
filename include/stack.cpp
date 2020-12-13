@@ -17,3 +17,13 @@ void stack::push(const card crdCard)			// Puts a card on the top of the stack.
 	crdStack.push(crdCard);						// Grows the stack	
 }
 
+const card& stack::top() const					// Returns the top card so we can steal this stack.
+{
+	return crdStack.top();
+}
+
+const int stack::count() const					// Returns the size of this stack.
+{
+	return crdStack.size();
+}
+
