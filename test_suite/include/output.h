@@ -10,8 +10,6 @@
 
 #include "../../include/card.h"
 #include "../../include/deck.h"
-#include "../../include/table.h"
-#include "../../include/hand.h"
 
 std::ostream& operator<<(std::ostream& osOut, card crdCard)								// Card output.
 {
