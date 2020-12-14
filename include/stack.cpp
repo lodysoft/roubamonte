@@ -19,7 +19,7 @@ void stack::push(const card crdCard)			// Puts a card on the top of the stack.
 
 const card& stack::top() const					// Returns the top card so we can steal this stack.
 {
-	return crdStack.top();
+	if(crdStack.size()) return crdStack.top(); else throw std::length_error("*** Bad stack *** - Stack is empty!");
 }
 
 const int stack::count() const					// Returns the size of this stack.

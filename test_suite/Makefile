@@ -5,6 +5,7 @@ SRC_DECK = test_deck.cpp ../include/deck.cpp ../include/stack.cpp ../include/car
 SRC_TABLE = test_table.cpp ../include/table.cpp ../include/deck.cpp ../include/stack.cpp ../include/card.cpp
 SRC_HAND = test_hand.cpp ../include/hand.cpp ../include/deck.cpp ../include/stack.cpp ../include/card.cpp
 SRC_STACK = test_stack.cpp ../include/deck.cpp ../include/stack.cpp ../include/card.cpp
+SRC_PLAYER = test_player.cpp ../include/player.cpp ../include/hand.cpp ../include/deck.cpp ../include/stack.cpp ../include/card.cpp
 
 #CC specifies which compiler we're using
 CC = g++
@@ -42,4 +43,8 @@ hand : $(SRC_HAND)
 #This is the target that compiles test_stack.cpp
 stack : $(SRC_STACK)
 	$(CC) $(COMPILER_FLAGS) $(SRC_STACK)
+
+#This is the target that compiles test_stack.cpp
+player : $(SRC_PLAYER)
+	$(CC) $(COMPILER_FLAGS) $(SRC_PLAYER)
 
