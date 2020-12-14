@@ -1,6 +1,6 @@
 // test_table.cpp
 
-#include <iostream>											// std::cout
+#include <iostream>														// std::cout
 
 #include "../include/deck.h"
 #include "../include/table.h"
@@ -8,11 +8,13 @@
 
 int main()
 {
-	deck dckDeck;											// Creates a deck.
+	table tblTable;														// Calls the default constructor.
 
-	table tblTable(dckDeck);								// Puts eight cards from the deck on the table.
-
-	std::cout << tblTable << std::endl << std::endl;		// Shows the table contents.
+	std::cout << std::endl												// Shows the table contents.
+				<< "Cards on the table:"
+				<< std::endl << std::endl << "\t"
+				<< tblTable
+				<< std::endl << std::endl;
 
 	return 0;
 }

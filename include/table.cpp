@@ -2,7 +2,7 @@
 
 #include "table.h"
 
-table::table(deck& dckDeck)						// Default constructor.
+table::table()									// Default constructor.
 {
 	for(int i = 0; i < TABLE_INITIAL_CARDS; i++)
 	{

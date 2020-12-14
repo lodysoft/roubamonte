@@ -13,11 +13,12 @@ const int TABLE_INITIAL_CARDS = 8;
 class table
 {
 public:
-	table(deck& dckDeck);						// Default constructor.
+	table();									// Default constructor.
 	const std::list<card> getCards() const;		// Getter for the whole table.
 
 private:
 	std::list<card> crdList;
+	deck dckDeck;
 
 };
 
