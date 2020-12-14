@@ -10,7 +10,7 @@ Code style convention:
 
 3) Spaces before and after comparison, assignment, arithmetic and stream operators. **No** spaces inside parentheses, square and angle brackets or curly braces.
 
-4) **Avoid curly braces whenever possible.** They must be always in a new line, so they **match** each other vertically, except when "inline" (the opening and closing ones at the same line). *"While"* also in a new line.
+4) **Avoid curly braces whenever possible.** They must be always in a new line, so they **match** each other vertically, except when "inline" (the opening and closing ones at the same line). "`While`" also in a new line.
 
 5) Pointer declaration asterisks stick to the **type** instead of the variable name. No space before, one space after.
 
