@@ -17,6 +17,7 @@ public:
 	card(const card& crdOther);								// Copy constructor.
 
 	card& operator=(const card& crdOther);					// Assignment operator.
+	const bool operator<(const card& crdOther);				// Less than operator.
 
 	const int figure() const;								// Only getters because you will never need to change a card.
 	const int suit() const;

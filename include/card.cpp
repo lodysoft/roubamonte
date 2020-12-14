@@ -10,6 +10,13 @@ card::card(const card& crdOther): iFigure(crdOther.iFigure), iSuit(crdOther.iSui
 
 card& card::operator=(const card& crdOther) {iFigure = crdOther.iFigure; iSuit = crdOther.iSuit; return *this;}		// Assignment operator.
 
+const bool card::operator<(const card& crdOther)																	// Less than operator.
+{
+	if(this->figure() == crdOther.figure()) return this->suit() < crdOther.suit();
+
+	return this->figure() < crdOther.figure();
+}
+
 const int card::figure() const {return iFigure;}																	// Getters definitions.
 const int card::suit() const {return iSuit;}
 

@@ -21,7 +21,7 @@ public:
 private:
 	std::list<card> crdList;
 
-	// TODO: void sort() const;							// Sorts the cards
+	void sort();								// Sorts the cards
 
 };
 
