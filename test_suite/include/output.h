@@ -84,7 +84,7 @@ template<typename T, typename U = decltype(std::declval<T>().getCards())> std::o
 {
 	std::list<card> crdCards = tContainer.getCards();
 
-	for(card crdCard: crdCards)
+	for(card crdCard: crdCards)															// TODO: solve the joker bug.
 		osOut << crdCard
 			<< (crdCard.figure() == crdCards.back().figure() && crdCard.suit() == crdCards.back().suit()? "": ", ");
 
