@@ -23,7 +23,7 @@ int main()
 				<< "Stack count:" << "\t"
 				<< plyPlayer.getStack().count()			// Shows stack size.
 				<< std::endl
-				<< "Stack top:" << "\t[";
+				<< "Stack top:" << "\t";
 				
 	try													// Shows top of stack, if available.
 	{
@@ -34,7 +34,7 @@ int main()
 		std::cout << "<empty>";
 	}
 	
-	std::cout << "]" << std::endl << std::endl;
+	std::cout << std::endl << std::endl;
 
 	return 0;
 }

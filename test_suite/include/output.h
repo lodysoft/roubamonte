@@ -65,17 +65,17 @@ std::ostream& operator<<(std::ostream& osOut, card crdCard)								// Card outpu
 			sSuit = " of Clubs";
 	}
 
-	osOut << sFigure << sSuit;
+	osOut << "[" << sFigure << sSuit << "]";
 
 	return osOut;
 }
 
 std::ostream& operator<<(std::ostream& osOut, deck dckDeck)								// Deck output.
 {
-	osOut << "[" << dckDeck.pop() << "]";												// TODO: improve this algorithm.
+	osOut << dckDeck.pop();																// TODO: improve this algorithm.
 
 	while(!dckDeck.isEmpty())
-		osOut << ", [" << dckDeck.pop() << "]";
+		osOut << ", " << dckDeck.pop();
 
 	return osOut;
 }
@@ -85,7 +85,7 @@ template<typename T, typename U = decltype(std::declval<T>().getCards())> std::o
 	std::list<card> crdCards = tContainer.getCards();
 
 	for(card crdCard: crdCards)
-		osOut << "[" << crdCard << "]"
+		osOut << crdCard
 			<< (crdCard.figure() == crdCards.back().figure() && crdCard.suit() == crdCards.back().suit()? "": ", ");
 
 	return osOut;

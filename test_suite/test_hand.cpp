@@ -12,7 +12,7 @@ int main()
 
 	hand hndHand(dckDeck);								// Takes four cards from it.
 
-	std::cout << hndHand << std::endl << std::endl;		// Shows the hand contents.
+	std::cout << std::endl << "\t" << hndHand << std::endl << std::endl;		// Shows the hand contents.
 
 	return 0;
 }
