@@ -1,9 +1,9 @@
 #OBJS specifies which files to compile as part of the project
 #OBJS = source.cpp source2.cpp ...
-SRC_CARD = test_card.cpp ../include/deck.cpp ../include/stack.cpp ../include/card.cpp
-SRC_DECK = test_deck.cpp ../include/deck.cpp ../include/stack.cpp ../include/card.cpp
-SRC_STACK = test_stack.cpp ../include/deck.cpp ../include/stack.cpp ../include/card.cpp
-SRC_HAND = test_hand.cpp ../include/hand.cpp ../include/deck.cpp ../include/stack.cpp ../include/card.cpp
+SRC_CARD = test_card.cpp ../include/player.cpp ../include/hand.cpp ../include/deck.cpp ../include/stack.cpp ../include/card.cpp
+SRC_DECK = test_deck.cpp ../include/player.cpp ../include/hand.cpp ../include/deck.cpp ../include/stack.cpp ../include/card.cpp
+SRC_STACK = test_stack.cpp ../include/player.cpp ../include/hand.cpp ../include/deck.cpp ../include/stack.cpp ../include/card.cpp
+SRC_HAND = test_hand.cpp ../include/player.cpp ../include/hand.cpp ../include/deck.cpp ../include/stack.cpp ../include/card.cpp
 SRC_PLAYER = test_player.cpp ../include/player.cpp ../include/hand.cpp ../include/deck.cpp ../include/stack.cpp ../include/card.cpp
 SRC_TABLE = test_table.cpp ../include/table.cpp ../include/player.cpp ../include/hand.cpp ../include/deck.cpp ../include/stack.cpp ../include/card.cpp
 
@@ -12,7 +12,7 @@ CC = g++
 
 #COMPILER_FLAGS specifies the additional compilation options we're using
 # -w suppresses all warnings
-COMPILER_FLAGS = -Wall --pedantic
+COMPILER_FLAGS = -std=c++20 -Wall --pedantic -g
 
 #LINKER_FLAGS specifies the libraries we're linking against
 #LINKER_FLAGS = -llibrary -llibrary2 ...

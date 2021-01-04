@@ -11,7 +11,6 @@ class deck: public stack
 {
 public:
 	deck();							// Default constructor
-	const bool isEmpty() const;		// Tests whether the cards are over.
 
 };
 

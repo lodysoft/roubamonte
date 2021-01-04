@@ -23,27 +23,10 @@ int main()
 		std::cout << "<Player {"
 					<< iCount++
 					<< "}>"
-					<< std::endl << std::endl
-					<< "\tHand:" << "\t\t"
-					<< plyPlayer.getHand()					// Shows hand contents.
+					<< plyPlayer
 					<< std::endl
-					<< "\tStack count:" << "\t"
-					<< plyPlayer.getStack().count()			// Shows stack size.
-					<< std::endl
-					<< "\tStack top:" << "\t";
-					
-		try													// Shows top of stack, if available.
-		{
-			std::cout << plyPlayer.getStack().top();
-		}
-		catch(std::length_error& exLenght)
-		{
-			std::cout << "<empty>";
-		}
-		
-		std::cout << std::endl << std::endl;
+					<< std::endl;
 	}
-
 
 	return 0;
 }

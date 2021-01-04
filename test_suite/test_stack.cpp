@@ -11,7 +11,7 @@ int main()
 {
 	stack stkStack;								// Invokes the implicit default constructor.
 	
-	stkStack.push(card(JOKER, SUITLESS));		// Adds a card to the stack.
+	stkStack.push(card(JOKER, BLACK));			// Adds a card to the stack.
 	stkStack.push(card(QUEEN, HEARTS));			// Adds another card to the stack.	
 
 	std::cout << std::endl						// Displays it.
