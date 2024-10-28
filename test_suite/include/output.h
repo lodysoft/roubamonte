@@ -81,10 +81,7 @@ std::ostream& operator<<(std::ostream& osOut, card crdCard)							// Card output
 
 std::ostream& operator<<(std::ostream& osOut, deck dckDeck)								// Deck output.
 {
-	osOut << dckDeck.pop();																// TODO: improve this algorithm.
-
-	while(!dckDeck.isEmpty())
-		osOut << ", " << dckDeck.pop();
+    while (!dckDeck.isEmpty()) osOut << dckDeck.pop() << (dckDeck.isEmpty()? "": ", ");
 
 	return osOut;
 }
