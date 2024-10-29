@@ -40,3 +40,10 @@
 *.backup
 *.bak
 
+# Test binaries
+card
+deck
+hand
+player
+stack
+table
