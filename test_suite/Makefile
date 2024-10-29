@@ -1,50 +1,68 @@
-#OBJS specifies which files to compile as part of the project
-#OBJS = source.cpp source2.cpp ...
-SRC_CARD = test_card.cpp ../include/player.cpp ../include/hand.cpp ../include/deck.cpp ../include/stack.cpp ../include/card.cpp
-SRC_DECK = test_deck.cpp ../include/player.cpp ../include/hand.cpp ../include/deck.cpp ../include/stack.cpp ../include/card.cpp
-SRC_STACK = test_stack.cpp ../include/player.cpp ../include/hand.cpp ../include/deck.cpp ../include/stack.cpp ../include/card.cpp
-SRC_HAND = test_hand.cpp ../include/player.cpp ../include/hand.cpp ../include/deck.cpp ../include/stack.cpp ../include/card.cpp
-SRC_PLAYER = test_player.cpp ../include/player.cpp ../include/hand.cpp ../include/deck.cpp ../include/stack.cpp ../include/card.cpp
-SRC_TABLE = test_table.cpp ../include/table.cpp ../include/player.cpp ../include/hand.cpp ../include/deck.cpp ../include/stack.cpp ../include/card.cpp
-
-#CC specifies which compiler we're using
+# Compiler settings
 CC = g++
-
-#COMPILER_FLAGS specifies the additional compilation options we're using
-# -w suppresses all warnings
 COMPILER_FLAGS = -std=c++20 -Wall --pedantic -g
 
-#LINKER_FLAGS specifies the libraries we're linking against
-#LINKER_FLAGS = -llibrary -llibrary2 ...
+# Directory structure
+SRC_DIR = .
+INCLUDE_DIR = ../include
+BUILD_DIR = build
+BIN_DIR = bin
 
-#OBJ_NAME specifies the name of our executable
-#OBJ_NAME = roubamonte
+# Automatically find all test files (test_*.cpp)
+TEST_SRCS := $(wildcard $(SRC_DIR)/test_*.cpp)
+TESTS := $(patsubst $(SRC_DIR)/test_%.cpp,%,$(TEST_SRCS))
 
-#This is the target that compiles our executable
-#all : $(OBJS)
-#	$(CC) $(OBJS) $(COMPILER_FLAGS) $(LINKER_FLAGS) -o $(OBJ_NAME)
+# Common source files
+COMMON_SRCS = $(filter-out $(INCLUDE_DIR)/table.cpp,$(wildcard $(INCLUDE_DIR)/*.cpp))
 
-#This is the target that compiles test_card.cpp
-card : $(SRC_CARD)
-	$(CC) $(COMPILER_FLAGS) $(SRC_CARD)
+# Create build and bin directories
+$(shell mkdir -p $(BUILD_DIR) $(BIN_DIR))
 
-#This is the target that compiles test_deck.cpp
-deck : $(SRC_DECK)
-	$(CC) $(COMPILER_FLAGS) $(SRC_DECK)
+# Generate object files list
+COMMON_OBJS = $(COMMON_SRCS:$(INCLUDE_DIR)/%.cpp=$(BUILD_DIR)/%.o)
 
-#This is the target that compiles test_stack.cpp
-stack : $(SRC_STACK)
-	$(CC) $(COMPILER_FLAGS) $(SRC_STACK)
+# Default target
+.PHONY: all clean help
+all: $(TESTS)
 
-#This is the target that compiles test_hand.cpp
-hand : $(SRC_HAND)
-	$(CC) $(COMPILER_FLAGS) $(SRC_HAND)
+# Pattern rule for common object files
+$(BUILD_DIR)/%.o: $(INCLUDE_DIR)/%.cpp
+	$(CC) $(COMPILER_FLAGS) -c $< -o $@
 
-#This is the target that compiles test_stack.cpp
-player : $(SRC_PLAYER)
-	$(CC) $(COMPILER_FLAGS) $(SRC_PLAYER)
+# Pattern rule for test object files
+$(BUILD_DIR)/test_%.o: $(SRC_DIR)/test_%.cpp
+	$(CC) $(COMPILER_FLAGS) -c $< -o $@
 
-#This is the target that compiles test_table.cpp
-table : $(SRC_TABLE)
-	$(CC) $(COMPILER_FLAGS) $(SRC_TABLE)
+# Pattern rule for test executables
+.SECONDEXPANSION:
+%: $(BUILD_DIR)/test_%.o $(COMMON_OBJS) $$(if $$(findstring table,$$@),$(BUILD_DIR)/table.o)
+	$(CC) $(COMPILER_FLAGS) $^ -o $(BIN_DIR)/$@
 
+# Special case for table.cpp
+$(BUILD_DIR)/table.o: $(INCLUDE_DIR)/table.cpp
+	$(CC) $(COMPILER_FLAGS) -c $< -o $@
+
+# Clean build artifacts
+clean:
+	rm -rf $(BUILD_DIR)/* $(BIN_DIR)/*
+
+# Run all tests
+.PHONY: test
+test: all
+	@echo "Running all tests..."
+	@for test in $(TESTS); do \
+		echo "\nRunning $$test test:"; \
+		$(BIN_DIR)/$$test || exit 1; \
+	done
+
+# Show help
+help:
+	@echo "Available targets:"
+	@echo "  all     - Build all test executables"
+	@echo "  clean   - Remove all build artifacts"
+	@echo "  test    - Build and run all tests"
+	@echo "  help    - Show this help message"
+	@echo "\nAvailable test targets:"
+	@for test in $(TESTS); do \
+		echo "  $$test"; \
+	done
