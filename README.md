@@ -14,3 +14,5 @@ Code style convention:
 
 5) Pointer declaration asterisks stick to the **type** instead of the variable name. No space before, one space after.
 
+6) Class names in lowercase, as short as possible, **only a single word** whenever possible. Otherwise, they will follow the convention for functions. Sorry, no camel case this time.
+
