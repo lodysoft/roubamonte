@@ -7,7 +7,7 @@
 
 #include "selection_container.h"
 
-const int HAND_INITIAL_CARDS = 4;					// Initial amount of cards a player receives.
+const int HAND_INITIAL_CARDS = 4;        // Initial amount of cards a player receives.
 
 /**
  * @brief Represents a player's hand of cards
