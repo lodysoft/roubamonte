@@ -2,9 +2,9 @@
 
 // Program to test the hand class.
 
-#include <stdexcept>															// std::out_of_range
-#include <cassert>																// assert
-#include <iostream>																// std::cout
+#include <stdexcept>													// std::out_of_range
+#include <cassert>													// assert
+#include <iostream>													// std::cout
 
 #include "../include/deck.h"
 #include "../include/hand.h"
@@ -83,7 +83,7 @@ void test_hand_selection()
 	bool caught = false;
     try
 	{
-        hndHand.select(4);							                            // Should throw
+        hndHand.select(4);							                            		// Should throw
 	}    
 	catch(const std::out_of_range&)
 	{
@@ -113,11 +113,11 @@ int main()
 
 	int iChoice = 0;
 
-	deck dckDeck;																// Creates a deck.
+	deck dckDeck;													// Creates a deck.
 
-	hand hndHand(dckDeck);														// Takes four cards from it.
+	hand hndHand(dckDeck);												// Takes four cards from it.
 
-	std::cout << std::endl << "\t" << hndHand << std::endl << std::endl;		// Shows the hand contents.
+	std::cout << std::endl << "\t" << hndHand << std::endl << std::endl;						// Shows the hand contents.
 
 	std::cout << "\tPlease choose a card (0 to 3):\t";
 
