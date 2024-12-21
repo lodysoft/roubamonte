@@ -18,7 +18,7 @@ CLASS_SRCS := $(wildcard $(INCLUDE_DIR)/*.cpp)
 TEST_CLASS_SRCS := $(filter $(addprefix $(INCLUDE_DIR)/,$(TEST_CLASSES)),$(CLASS_SRCS))
 
 # Base classes that should always be included
-BASE_CLASSES = player.cpp hand.cpp deck.cpp stack.cpp card.cpp
+BASE_CLASSES = selection_container.cpp player.cpp hand.cpp deck.cpp stack.cpp card.cpp
 BASE_SRCS := $(addprefix $(INCLUDE_DIR)/,$(BASE_CLASSES))
 
 # Combine all source files

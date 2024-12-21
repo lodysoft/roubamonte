@@ -12,6 +12,7 @@
 
 #include "../../include/card.h"
 #include "../../include/deck.h"
+#include "../../include/tray.h"
 #include "../../include/hand.h"
 #include "../../include/player.h"
 
@@ -82,6 +83,13 @@ std::ostream& operator<<(std::ostream& osOut, card crdCard)							// Card output
 std::ostream& operator<<(std::ostream& osOut, deck dckDeck)								// Deck output.
 {
     while (!dckDeck.isEmpty()) osOut << dckDeck.pop() << (dckDeck.isEmpty()? "": ", ");
+
+	return osOut;
+}
+
+std::ostream& operator<<(std::ostream& osOut, tray tryTray)								// Tray output.
+{
+	for(int i = 0; i < tryTray.count(); i++) osOut << (i == 0? "": ", ") << tryTray[i];
 
 	return osOut;
 }
