@@ -7,7 +7,7 @@
 
 #include "selection_container.h"
 
-const int TRAY_INITIAL_CARDS = 8;					// Initial amount of cards of the tray.
+const int TRAY_INITIAL_CARDS = 8;        // Initial amount of cards of the tray.
 
 /**
  * @brief Represents the central discard tray
