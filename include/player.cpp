@@ -12,6 +12,6 @@ const bool player::isMatch(const card& crdTarget, const card& crdSource) const {
 void player::steal(player& plyOther)
 {
 	while(!plyOther.getStack().isEmpty()) stkStack.push(plyOther.getStack().pop());							// Moves the target stack to this stack (backwards, but who cares?...).
-	stkStack.push(hndHand.discard());																									// Adds the source card to the top of this stack.
+	stkStack.push(hndHand.discard());												// Adds the source card to the top of this stack.
 }
 
