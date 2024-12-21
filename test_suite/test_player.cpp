@@ -2,7 +2,7 @@
 
 // Program to test the player class
 
-#include <iostream>										// std::cout
+#include <iostream>											// std::cout
 
 #include "../include/deck.h"
 #include "../include/player.h"
@@ -10,13 +10,13 @@
 
 int main()
 {
-	deck dckPile;										// Creates a deck.
-	player plyPlayer(dckPile);							// Invokes the constructor.
-	player plyOther(dckPile);							// Here comes a new challenger.
+	deck dckPile;											// Creates a deck.
+	player plyPlayer(dckPile);									// Invokes the constructor.
+	player plyOther(dckPile);									// Here comes a new challenger.
 
-	for(int i = 0; i < 6; i++)							// Moves some cards from the pile to each player's stack.
+	for(int i = 0; i < 6; i++)									// Moves some cards from the pile to each player's stack.
 	{
-		plyPlayer.getStack().push(dckPile.pop());		// Comment out any of these lines to get an empty stack.
+		plyPlayer.getStack().push(dckPile.pop());						// Comment out any of these lines to get an empty stack.
 		plyOther.getStack().push(dckPile.pop());
 	}
 	
