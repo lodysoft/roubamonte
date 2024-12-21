@@ -35,6 +35,9 @@
 # Sublime shit
 *.sublime*
 
+# VS Code shit
+*.json
+
 # Local backup files
 *~
 *.backup
@@ -47,3 +50,4 @@ hand
 player
 stack
 table
+tray

@@ -1,31 +1,34 @@
 // hand.h
 
+// A player's hand of cards
+
 #ifndef HAND_H
 #define HAND_H
 
-#include <set>
-#include <map>
-
-#include "card.h"
-#include "deck.h"
+#include "selection_container.h"
 
 const int HAND_INITIAL_CARDS = 4;					// Initial amount of cards a player receives.
 
-class hand
+/**
+ * @brief Represents a player's hand of cards
+ * 
+ * Manages a player's current cards, allowing selection and discard operations.
+ * Always maintains HAND_INITIAL_CARDS cards when possible through refills.
+ */
+class hand: public selection_container
 {
 public:
-	hand(deck& dckDeck);							// Default constructor.
-	const bool isEmpty() const;						// Informs whether we became out of cards.
-	const int count() const;						// Returns the current number of cards.
-	void refill(deck& dckDeck);						// Takes cards from the pile.
-	void select(const int iIndex);					// Selects a card.
-	card discard();									// Discards the card pointed to by itSelected.
-	const card& operator[](const int iIndex);		// Subscript operator.
-	
-private:
-	int iSelected;
-	std::map<int, card> mapCards;
-
+    /**
+     * @brief Creates new hand with initial cards from deck
+     * @param dckDeck Source deck to draw cards from
+     */
+    hand(deck& dckDeck);
+     /**
+     * @brief Discards currently selected card
+     * @returns The discarded card
+     * @throws std::out_of_range if no card selected
+     */
+    card discard();
 };
 
 #endif
