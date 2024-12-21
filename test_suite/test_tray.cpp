@@ -1,7 +1,7 @@
 // test_tray.cpp
 
-#include <cassert>		// assert
-#include <stdexcept>	// std::out_of_range
+#include <cassert>													// assert
+#include <stdexcept>													// std::out_of_range
 #include <iostream>
 
 #include "../include/deck.h"
@@ -100,11 +100,11 @@ int main()
 
 	int iChoice = 0;
 
-	deck dckDeck;																// Creates a deck.
+	deck dckDeck;													// Creates a deck.
 
-	tray tryTray(dckDeck);														// Takes four cards from it.
+	tray tryTray(dckDeck);												// Takes four cards from it.
 
-	std::cout << std::endl << "\t" << tryTray << std::endl << std::endl;		// Shows the tray contents.
+	std::cout << std::endl << "\t" << tryTray << std::endl << std::endl;						// Shows the tray contents.
 
 	std::cout << "\tPlease choose a card (0 to 7):\t";
 
