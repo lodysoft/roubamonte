@@ -14,7 +14,6 @@
 #include <set>
 #include <map>
 
-#include "card.h"
 #include "deck.h"
 
 class selection_container
@@ -26,7 +25,6 @@ public:
      * @param iInitial Number of cards to initially draw
      */
     selection_container(deck& dckDeck, const int iInitial);
-    virtual ~selection_container() = default;
     
     const bool isEmpty() const;                                     // Informs whether we became out of cards.
     const int count() const;                                        // Returns the current number of cards.
