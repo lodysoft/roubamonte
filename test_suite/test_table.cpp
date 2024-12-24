@@ -1,6 +1,6 @@
 // test_table.cpp
 
-#include <iostream>							// std::cout
+#include <iostream>									// std::cout
 
 #include "../include/deck.h"
 #include "../include/table.h"
@@ -10,9 +10,9 @@ int main()
 {
 	int iCount = 0;
 
-	table tblTable;							// Calls the default constructor.
+	table tblTable;									// Calls the default constructor.
 
-	std::cout << std::endl						// Shows the table contents.
+	std::cout << std::endl							// Shows the table contents.
 				<< "Cards on the table:"
 				<< std::endl << std::endl << "\t"
 				<< tblTable
