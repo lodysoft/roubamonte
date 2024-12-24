@@ -24,6 +24,12 @@ public:
      */
     tray(deck& dckDeck);
 
+    /**
+     * @brief Adds a discarded card to the tray
+     * @param crdDiscarded Card to add to tray
+     */
+    void receive_discard(const card& crdDiscarded);
+
 };
 
 #endif

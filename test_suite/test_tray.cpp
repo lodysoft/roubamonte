@@ -76,6 +76,24 @@ void test_tray_selection()
 }
 
 /**
+ * Tests whether receiving discarded cards works correctly.
+ * Verifies tray properly stores received cards.
+ */
+void test_tray_receive_discard()
+{
+    deck dckDeck;
+    tray tryTray(dckDeck);
+    
+    int initialCount = tryTray.count();
+    card testCard(HEARTS, ACE);
+    
+    tryTray.receive_discard(testCard);
+    
+    assert(tryTray.count() == initialCount + 1);
+    assert(tryTray[tryTray.count() - 1] == testCard);
+}
+
+/**
  * Runs all tests for the tray class.
  *
  * Outputs to the console the name of the test being run, and whether all tests
@@ -89,6 +107,7 @@ int main()
     test_tray_construction();
     test_tray_refill_behavior();
     test_tray_selection();
+    test_tray_receive_discard();
     
     std::cout << "All tray tests passed!\n";
 
@@ -102,7 +121,7 @@ int main()
 
 	std::cout << std::endl << "\t" << tryTray << std::endl << std::endl;    // Shows the tray contents.
 
-	std::cout << "\tPlease choose a card (0 to 7):\t";
+	std::cout << "\tPlease choose a card (0 to " << tryTray.count() - 1 << "):\t";
 
 	std::cin >> iChoice;
 
