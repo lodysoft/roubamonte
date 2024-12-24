@@ -1,7 +1,7 @@
 // test_tray.cpp
 
-#include <cassert>													// assert
-#include <stdexcept>													// std::out_of_range
+#include <cassert>													        // assert
+#include <stdexcept>													    // std::out_of_range
 #include <iostream>
 
 #include "../include/deck.h"
@@ -33,18 +33,16 @@ void test_tray_refill_behavior()
     deck dckDeck;
     tray tryTray(dckDeck);
     
-    // Remember initial cards
-    std::set<card> initialCards;
+    std::set<card> initialCards;                                            // Remember initial cards
+    
     for(int i = 0; i < TRAY_INITIAL_CARDS; i++) 
 	{
         initialCards.insert(tryTray[i]);
     }
     
-    // Refill shouldn't change cards
-    tryTray.refill(dckDeck);
+    tryTray.refill(dckDeck);                                                // Refill shouldn't change cards
     
-    // Verify same cards remain
-    for(int i = 0; i < TRAY_INITIAL_CARDS; i++)
+    for(int i = 0; i < TRAY_INITIAL_CARDS; i++)                             // Verify same cards remain
 	{
         assert(initialCards.find(tryTray[i]) != initialCards.end());
     }
@@ -62,12 +60,10 @@ void test_tray_selection()
     deck dckDeck;
     tray tryTray(dckDeck);
     
-    // Valid selection
-    tryTray.select(0);
+    tryTray.select(0);                                                      // Valid selection
     tryTray.select(TRAY_INITIAL_CARDS - 1);
     
-    // Invalid selection
-    bool caught = false;
+    bool caught = false;                                                    // Invalid selection should throw
     try
 	{
         tryTray.select(TRAY_INITIAL_CARDS);
@@ -100,11 +96,11 @@ int main()
 
 	int iChoice = 0;
 
-	deck dckDeck;													// Creates a deck.
+	deck dckDeck;													        // Creates a deck.
 
-	tray tryTray(dckDeck);												// Takes four cards from it.
+	tray tryTray(dckDeck);												    // Takes four cards from it.
 
-	std::cout << std::endl << "\t" << tryTray << std::endl << std::endl;						// Shows the tray contents.
+	std::cout << std::endl << "\t" << tryTray << std::endl << std::endl;    // Shows the tray contents.
 
 	std::cout << "\tPlease choose a card (0 to 7):\t";
 

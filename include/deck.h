@@ -10,7 +10,7 @@
 class deck: public stack
 {
 public:
-	deck();			// Default constructor
+	deck();					// Default constructor
 
 };
 

@@ -11,13 +11,13 @@
  * Creates new hand with HAND_INITIAL_CARDS cards.
  * Immediately fills hand from deck.
  */
-hand::hand(deck& dckDeck): selection_container(dckDeck, HAND_INITIAL_CARDS) {refill(dckDeck);}								// Default constructor.
+hand::hand(deck& dckDeck): selection_container(dckDeck, HAND_INITIAL_CARDS) {refill(dckDeck);}													// Default constructor.
 
 /**
  * Removes and returns selected card.
  * Shifts remaining cards to maintain consecutive indices.
  */
-card hand::discard()																	// Discards the card pointed to by iSelected.
+card hand::discard()																															// Discards the card pointed to by iSelected.
 {
 	card crdTemp = mapCards.at(iSelected);
 
