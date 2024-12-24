@@ -125,19 +125,5 @@ std::ostream& operator<<(std::ostream& osOut, player plyPlayer)		// player outpu
 }
 
 
-/* This template has become obsolete. It was needed when the classes were similar enough,
- now it only outputs the cards on the table. TODO: refactor it back to a regular function. */
-template<typename T, typename U = decltype(std::declval<T>().getCards())> std::ostream& operator<<(std::ostream& osOut, T& tContainer)		// Table output.
-{
-	std::list<card> crdCards = tContainer.getCards();
-
-	for(card crdCard: crdCards)										// TODO: solve the joker bug.
-		osOut << crdCard
-			<< (crdCard.figure() == crdCards.back().figure() && crdCard.suit() == crdCards.back().suit()? "": ", ");
-
-	return osOut;
-}
-
-
 #endif
 
