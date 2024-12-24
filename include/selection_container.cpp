@@ -11,7 +11,7 @@
  * Initializes container with specified initial card count.
  * Does not fill cards immediately - derived classes handle initial fill.
  */
-selection_container::selection_container(deck& dckDeck, const int iInitial): iInitialCards(iInitial), iSelected(0) {mapCards.clear();}
+selection_container::selection_container(deck& dckDeck, const int iInitial): iInitialCards(iInitial), iSelected(0), mapCards{} {}
 
 const bool selection_container::isEmpty() const {return mapCards.empty();}													// Informs whether we became out of cards.
 
@@ -43,8 +43,5 @@ void selection_container::refill(deck& dckDeck)																				// Takes card
 	for(const card& crdCard: setSelectable) mapCards.insert({iIndex++, crdCard});											// Copies them to the definitive container.
 }
 
-const int selection_container::getInitialCards() const																		// Returns initial card count for derived class use.
-{
-    return iInitialCards;
-}
+const int selection_container::getInitialCards() const {return iInitialCards;}												// Returns initial card count for derived class use.
 

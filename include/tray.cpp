@@ -13,3 +13,5 @@
  */
 tray::tray(deck& dckDeck): selection_container(dckDeck, TRAY_INITIAL_CARDS) {refill(dckDeck);}		// Default constructor.
 
+void tray::receive_discard(const card& crdDiscarded) {mapCards.insert({count(), crdDiscarded});}	// Adds a discarded card to the tray.
+

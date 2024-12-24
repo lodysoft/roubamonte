@@ -8,6 +8,7 @@
 
 #include "../include/deck.h"
 #include "../include/hand.h"
+#include "../include/tray.h"
 #include "include/output.h"
 
 /**
@@ -25,24 +26,6 @@ void test_hand_construction()
 }
 
 /**
- * Tests whether discarding a card from a hand works correctly.
- *
- * Checks the hand's size before and after discarding a card,
- * and whether the discarded card is a valid card.
- */
-void test_hand_discard()
-{
-    deck dckDeck;
-    hand hndHand(dckDeck);
-    
-    hndHand.select(0);
-    card crdDiscarded = hndHand.discard();
-    
-    assert(hndHand.count() == 3);
-    assert(crdDiscarded.figure() >= JOKER && crdDiscarded.figure() <= KING);
-}
-
-/**
  * Tests whether a hand can be properly refilled with four new cards.
  *
  * Checks the hand's size before and after refilling.
@@ -52,7 +35,7 @@ void test_hand_refill()
     deck dckDeck;
     hand hndHand(dckDeck);
     
-    // Discard all cards
+    tray tryTray(dckDeck);                                                  // Discard all cards
     for(int i = 0; i < 4; i++)
 {
         hndHand.select(0);
@@ -76,11 +59,9 @@ void test_hand_selection()
     deck dckDeck;
     hand hndHand(dckDeck);
     
-    // Test valid selection
-    hndHand.select(3);
+    hndHand.select(3);                                                      // Test valid selection
     
-    // Test invalid selection should throw
-	bool caught = false;
+	bool caught = false;                                                    // Test invalid selection
     try
 	{
         hndHand.select(4);							                        // Should throw
@@ -90,6 +71,27 @@ void test_hand_selection()
         caught = true;
     }
 	assert(caught && "test_hand_selection: Expected out_of_range exception");
+}
+
+/**
+ * Tests whether discarding a card to tray works correctly.
+ * Verifies card movement from hand to tray.
+ */
+void test_hand_discard_to_tray()
+{
+    deck dckDeck;
+    tray tryTray(dckDeck);
+    hand hndHand(dckDeck);
+    
+    int initialTrayCount = tryTray.count();
+    card expectedCard = hndHand[0];
+    
+    hndHand.select(0);
+    hndHand.discard(tryTray);
+    
+    assert(hndHand.count() == HAND_INITIAL_CARDS - 1);
+    assert(tryTray.count() == initialTrayCount + 1);
+    assert(tryTray[tryTray.count() - 1] == expectedCard);
 }
 
 /**
@@ -103,30 +105,24 @@ int main()
     std::cout << "Running hand tests...\n";
     
     test_hand_construction();
-    test_hand_discard();
     test_hand_refill();
     test_hand_selection();
+    test_hand_discard_to_tray();
     
     std::cout << "All hand tests passed!\n";
 
     // Deprecated test: user interaction
+    int iChoice = 0;
+    deck dckDeck;
+    hand hndHand(dckDeck);
 
-	int iChoice = 0;
+    std::cout << std::endl << "\t" << hndHand << std::endl << std::endl;
+    std::cout << "\tPlease choose a card (0 to 3):\t";
+    std::cin >> iChoice;
 
-	deck dckDeck;													        // Creates a deck.
-
-	hand hndHand(dckDeck);												    // Takes four cards from it.
-
-	std::cout << std::endl << "\t" << hndHand << std::endl << std::endl;    // Shows the hand contents.
-
-	std::cout << "\tPlease choose a card (0 to 3):\t";
-
-	std::cin >> iChoice;
-
-	hndHand.select(iChoice);
-
-	std::cout << std::endl << std::endl << "\tYou've chosen:\t" << hndHand.discard() << std::endl << std::endl;
-
-	return 0;
+    hndHand.select(iChoice);
+    std::cout << std::endl << std::endl << "\tYou've chosen:\t" << hndHand.discard() << std::endl << std::endl;
+ 
+    return 0;
 }
 
