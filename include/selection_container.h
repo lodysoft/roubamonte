@@ -19,13 +19,6 @@
 class selection_container
 {
 public:
-    /**
-     * @brief Constructs container with initial cards from deck
-     * @param dckDeck Source deck to draw cards from
-     * @param iInitial Number of cards to initially draw
-     */
-    selection_container(deck& dckDeck, const int iInitial);
-    
     const bool isEmpty() const;                                     // Informs whether we became out of cards.
     const int count() const;                                        // Returns the current number of cards.
     /**
@@ -44,6 +37,15 @@ public:
     void refill(deck& dckDeck);                                     // Takes cards from the pile.
     
 protected:
+    /**
+     * @brief Protected constructor to prevent direct instantiation
+     * @param dckDeck Source deck to draw cards from
+     * @param iInitial Number of cards container should maintain
+     * @details Base class initialization only. Derived classes must call refill() 
+     *          explicitly to populate their containers with cards.
+     */
+    selection_container(deck& dckDeck, const int iInitial);
+    
     const int iInitialCards;                                        ///< Initial card count for this container
     int iSelected;                                                  ///< Index of currently selected card
     std::map<int, card> mapCards;                                   ///< Storage for cards indexed by position
