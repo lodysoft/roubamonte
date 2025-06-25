@@ -17,7 +17,7 @@ public:
 	hand& getHand();															// Hand property getter.
 	void steal(player& plyOther);												// Steals the stack from a player.
 
-private:
+protected:
 	stack stkStack;																// Personal stack
 	hand hndHand;
 	
