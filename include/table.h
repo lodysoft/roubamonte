@@ -19,7 +19,7 @@ public:
 	const std::list<card>& getCards() const;			// Getter for the whole table.
 	const std::vector<player>& getPlayers() const;		// Getter for the players collection.
 
-private:
+protected:
 	deck dckPile;										// Main pile.
 	std::list<card> crdCards;							// Cards on the table.
 	std::vector<player> plyPlayers;						// Player collection.

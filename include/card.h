@@ -23,7 +23,7 @@ public:
 	const int figure() const;								// Only getters because you will never need to change a card.
 	const int suit() const;
 	
-private:
+protected:
 	int iFigure;
 	int iSuit;
 
