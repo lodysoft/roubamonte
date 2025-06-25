@@ -1,7 +1,4 @@
-# roubamonte
-Traditional card game to teach kids how to play with cards.
-
-Code style convention:
+#Code style convention:
 ---------------------
 
 1) **Hungarian notation:** it's a camel case in which every variable name is preceded by its type in three or less lowercase letters, sometimes four or five, if there aren't better options.
