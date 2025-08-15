@@ -17,7 +17,7 @@ const bool selection_container::isEmpty() const {return mapCards.empty();}						
 
 const int selection_container::count() const {return mapCards.size();}														// Returns the current number of cards.
 
-void selection_container::select(const int iIndex)																			// Selects a card. You're right: it's only a setter.
+void selection_container::select(const int iIndex)																		// Selects a card. You're right: it's only a setter.
 {
 	if (iIndex < 0 || iIndex >= count()) throw std::out_of_range("*** Bad selection *** - Card index out of range.");		// Checks if the index is valid, otherwise throws up.
 	iSelected = iIndex;

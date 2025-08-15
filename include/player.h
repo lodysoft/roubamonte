@@ -14,7 +14,7 @@ class player
 public:
 	player(deck& dckDeck);														// Constructor
 	stack& getStack();															// Stack property getter (dangerous).
-	hand& getHand();															// Hand property getter.
+	hand& getHand();															// Hand property getter. Can't be const because of the select method.
 	void steal(player& plyOther);												// Steals the stack from a player.
 
 protected:

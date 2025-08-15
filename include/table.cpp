@@ -2,13 +2,9 @@
 
 #include "table.h"
 
-table::table(int iPlayers)																// Default constructor.
-{
-	for(int i = 0; i < TABLE_INITIAL_CARDS; i++) crdCards.push_back(dckPile.pop());		// Moves eight cards from the main stack to the table.
+table::table(int iPlayers) : tryTray(dckPile) {for(int i = 0; i < iPlayers; i++) plyPlayers.push_back(player(dckPile));}	// Default constructor.
 
-	for(int i = 0; i < iPlayers; i++) plyPlayers.push_back(player(dckPile));
-}
-
-const std::list<card>& table::getCards() const {return crdCards;}						// Getter for table cards.
-const std::vector<player>& table::getPlayers() const {return plyPlayers;}				// Getter for the players collection.
+std::vector<player>& table::getPlayers() {return plyPlayers;}																// Getter for the players collection.
+tray& table::getTray() { return tryTray; }																					// Getter for the tray. Can't be const because of the receive_discard method.
+const deck& table::getDeck() const { return dckPile; }
 
