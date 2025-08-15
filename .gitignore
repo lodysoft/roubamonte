@@ -35,19 +35,11 @@
 # Sublime shit
 *.sublime*
 
-# VS Code shit
-*.json
-
 # Local backup files
 *~
 *.backup
 *.bak
 
 # Test binaries
-card
-deck
-hand
-player
-stack
-table
-tray
+test_suite/bin/*
+
