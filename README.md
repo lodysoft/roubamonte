@@ -195,6 +195,9 @@ sudo port install gcc10 +universal boost +universal
 # Install MSYS2 first from https://www.msys2.org/
 # Then in MSYS2 terminal:
 pacman -S mingw-w64-x86_64-gcc mingw-w64-x86_64-make mingw-w64-x86_64-boost
+
+# Add the bin directory (e.g., C:\mingw-w64\bin) to your system PATH
+# Add the bin directory (e.g., C:\msys64\usr\bin) to your system PATH
 ```
 
 **Using Visual Studio:**
