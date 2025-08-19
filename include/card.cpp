@@ -17,7 +17,7 @@ const bool card::operator<(const card& crdOther) const																			// Less
 	return this->suit() < crdOther.suit();
 }
 
-const bool card::operator==(const card& other) const {return this->iSuit == other.iSuit && this->iFigure == other.iFigure;}		// Equality operator.
+const bool card::operator==(const card& crdOther) const {return this->iSuit == crdOther.iSuit && this->iFigure == crdOther.iFigure;}		// Equality operator.
 
 const int card::figure() const {return iFigure;}																				// Getters definitions.
 const int card::suit() const {return iSuit;}
