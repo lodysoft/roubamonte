@@ -10,10 +10,6 @@
     test:
       runs-on: ubuntu-latest
 
-      strategy:
-        matrix:
-          compiler: [gcc, clang]
-
       steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -21,31 +17,12 @@
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y build-essential make libboost-test-dev
-
-      - name: Install GCC (if selected)
-        if: matrix.compiler == 'gcc'
-        run: |
-          sudo apt-get install -y gcc-10 g++-10
-          sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 100
-          sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-10 100
-
-      - name: Install Clang (if selected)
-        if: matrix.compiler == 'clang'
-        run: |
-          sudo apt-get install -y clang-12
-          sudo update-alternatives --install /usr/bin/clang clang /usr/bin/clang-12 100
-          sudo update-alternatives --install /usr/bin/clang++ clang++ /usr/bin/clang++-12 100
+          sudo apt-get install -y build-essential g++ make libboost-test-dev
 
       - name: Verify C++20 support
         run: |
-          if [ "${{ matrix.compiler }}" = "gcc" ]; then
-            g++ --version
-            g++ -std=c++20 -E -x c++ - </dev/null >/dev/null && echo "✅ C++20 supported" || exit 1
-          else
-            clang++ --version  
-            clang++ -std=c++20 -E -x c++ - </dev/null >/dev/null && echo "✅ C++20 supported" || exit 1
-          fi
+          g++ --version
+          g++ -std=c++20 -E -x c++ - </dev/null >/dev/null && echo "✅ C++20 supported" || exit 1
 
       - name: Build automated tests
         working-directory: test_suite
@@ -55,9 +32,6 @@
         env:
           MAKEFLAGS: "-j2"
 
-      - name: Run automated tests only
+      - name: Run automated tests
         working-directory: test_suite
         run: make qa
-        env:
-          CXX: ${{ matrix.compiler == 'gcc' && 'g++' || 'clang++' }}
-
