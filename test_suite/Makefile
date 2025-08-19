@@ -7,8 +7,8 @@ SRC_DIR = .
 INCLUDE_DIR = ../include
 BUILD_DIR = build
 BIN_DIR = bin
-INTERACTIVE_DIR = interactive_tests
-UNIT_DIR = unit_tests
+INTERACTIVE_DIR = interactive
+UNIT_DIR = automated
 
 # Automatically find all test files (test_*.cpp) in all directories
 INTERACTIVE_SRCS := $(wildcard $(INTERACTIVE_DIR)/show_*.cpp)
