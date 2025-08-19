@@ -41,8 +41,12 @@ This project showcases **enterprise-level C++ development** through a reusable c
 **Test Structure:**
 ```
 test_suite/
-├── interactive_tests/     # Visual demos (show_*.cpp) 
-└── unit_tests/qa/         # QA tests (qa_*.cpp) using Boost Test
+├── interactive/           # Visual demos (show_*.cpp) with user interaction
+├── automated/
+│   ├── qa/                # Professional QA tests (qa_*.cpp) using Boost Test
+│   └── tdd/               # Specification tests (tdd_*.cpp) for new features
+├── build/                 # Compilation artifacts  
+└── bin/                   # Test executables
 ```
 
 ## 🔧 Prerequisites & Dependencies
