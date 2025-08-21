@@ -52,7 +52,6 @@ BOOST_AUTO_TEST_CASE(test_selection_container_indexing)
     
     // Test that indexing returns actual cards
     card crdFirst = hndHand[0];
-    card crdLast = hndHand[3];
     
     BOOST_CHECK_EQUAL(crdFirst.figure(), hndHand[0].figure());                      // Should return consistent results
     BOOST_CHECK_EQUAL(crdFirst.suit(), hndHand[0].suit());
