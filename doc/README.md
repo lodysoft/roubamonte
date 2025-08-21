@@ -6,36 +6,38 @@ This directory contains the UML documentation for the Roubamonte card game frame
 
 ### Files
 
-- **`class-diagram.puml`** - PlantUML source file for the complete class diagram
+- **`class-diagram.md`** - Mermaid UML class diagram with complete architecture
 - **`README.md`** - This documentation file
 
 ### Viewing the UML Diagram
 
-To generate and view the UML diagram from the PlantUML source:
+The UML diagram uses **Mermaid** syntax and renders automatically on GitHub. Simply view `class-diagram.md` to see the complete class diagram.
 
-#### Online Viewers
-1. **PlantUML Online Server**: https://www.plantuml.com/plantuml/uml/
-   - Copy the contents of `class-diagram.puml` into the text area
-   - The diagram will be generated automatically
+#### GitHub (Recommended)
+- **Direct viewing**: Open `class-diagram.md` in GitHub interface
+- **Automatic rendering**: No additional tools needed
+- **Always up-to-date**: Diagram updates automatically with code changes
 
-2. **PlantText**: https://www.planttext.com/
-   - Paste the PlantUML code and click "Refresh"
+#### Alternative Viewers
+1. **VS Code Extension**: Install "Mermaid Preview" extension
+   - Open `class-diagram.md` in VS Code  
+   - Use preview mode to render the diagram
 
-#### Local Tools
-1. **VS Code Extension**: Install "PlantUML" extension
-   - Open `class-diagram.puml` in VS Code
-   - Use `Ctrl+Shift+P` → "PlantUML: Preview Current Diagram"
+2. **Online Mermaid Editors**:
+   - **Mermaid Live Editor**: https://mermaid-js.github.io/mermaid-live-editor/
+   - **Mermaid Chart**: https://www.mermaidchart.com/
+   - Copy the mermaid code block and paste into the editor
 
-2. **Command Line** (requires Java and Graphviz):
+3. **Local Mermaid CLI** (optional):
    ```bash
-   # Install PlantUML
-   wget https://github.com/plantuml/plantuml/releases/latest/download/plantuml.jar
+   # Install Mermaid CLI
+   npm install -g @mermaid-js/mermaid-cli
    
    # Generate SVG diagram
-   java -jar plantuml.jar -tsvg class-diagram.puml
+   mmdc -i class-diagram.md -o class-diagram.svg
    
    # Generate PNG diagram  
-   java -jar plantuml.jar -tpng class-diagram.puml
+   mmdc -i class-diagram.md -o class-diagram.png
    ```
 
 ## Architecture Overview
@@ -74,9 +76,18 @@ The Roubamonte framework implements a sophisticated class hierarchy with proven 
 ### Framework Extensibility
 
 The architecture supports extension to other card games through:
-- Polymorphic selection interfaces
-- Configurable card counts and game rules  
-- Template-based container patterns
-- Separation of game logic from card mechanics
+- **Polymorphic selection interfaces** via `selection_container` abstract base
+- **Configurable game rules** through `table` coordination and player management
+- **Template Method patterns** for consistent container behavior
+- **Strategy Pattern** implementation for flexible discard mechanisms
+- **Clean separation** of card mechanics from game-specific logic
+
+### Automated Documentation
+
+This UML diagram is **automatically maintained** through GitHub Actions:
+- **Triggers** on changes to `.h` and `.cpp` files
+- **Updates** class count and modification timestamps  
+- **Maintains accuracy** without manual intervention
+- **Scales** with project growth automatically
 
 For detailed implementation specifications, see the main project documentation in `/README.md` and `/CLAUDE.md`.
