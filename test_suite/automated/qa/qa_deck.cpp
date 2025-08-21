@@ -53,7 +53,7 @@ BOOST_AUTO_TEST_CASE(test_deck_inheritance_from_stack)
     BOOST_CHECK_NO_THROW(dckDeck.top());
     
     int initialCount = dckDeck.count();
-    card crdTop = dckDeck.pop();
+    dckDeck.pop();
     BOOST_CHECK_EQUAL(dckDeck.count(), initialCount - 1);                   // Pop should work
 }
 
