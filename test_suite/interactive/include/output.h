@@ -18,45 +18,45 @@
 
 std::ostream& operator<<(std::ostream& osOut, card crdCard)			// Card output.
 {
-	std::string sFigure = "";										// Output strings.
+	std::string sRank = "";										// Output strings.
 	std::string sSuit = "";
 
-	switch(crdCard.figure())
+	switch(crdCard.rank())
 	{
 		case JOKER:
-			sFigure = "Joker";
+			sRank = "Joker";
 			break;
 
 		case ACE:
-			sFigure = "Ace";
+			sRank = "Ace";
 			break;
 
 		case JACK:
-			sFigure = "Jack";
+			sRank = "Jack";
 			break;
 
 		case QUEEN:
-			sFigure = "Queen";
+			sRank = "Queen";
 			break;
 
 		case KING:
-			sFigure = "King";
+			sRank = "King";
 			break;
 
 		default:
-			sFigure = std::to_string(crdCard.figure());				// The figure is a number.
+			sRank = std::to_string(crdCard.rank());				// The rank is a number.
 	}
 
 	switch(crdCard.suit())
 	{
 		case RED:													// It's a red joker.
-			sSuit = sFigure;
-			sFigure = "Red ";
+			sSuit = sRank;
+			sRank = "Red ";
 			break;
 
 		case BLACK:													// It's a black joker.
-			sSuit = sFigure;
-			sFigure = "Black ";
+			sSuit = sRank;
+			sRank = "Black ";
 			break;
 
 		case SPADES:
@@ -75,7 +75,7 @@ std::ostream& operator<<(std::ostream& osOut, card crdCard)			// Card output.
 			sSuit = " of Clubs";
 	}
 
-	osOut << "[" << sFigure << sSuit << "]";
+	osOut << "[" << sRank << sSuit << "]";
 
 	return osOut;
 }

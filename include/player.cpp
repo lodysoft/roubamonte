@@ -7,7 +7,7 @@ player::player(deck& dckDeck): hndHand(dckDeck) {}																					// Constr
 stack& player::getStack() {return stkStack;}																						// Stack property getter (dangerous).
 hand& player::getHand() {return hndHand;}																							// Hand property getter.
 
-const bool player::isMatch(const card& crdTarget, const card& crdSource) const {return crdTarget.figure() == crdSource.figure();}	// Checks whether two cards form a pair.
+const bool player::isMatch(const card& crdTarget, const card& crdSource) const {return crdTarget.rank() == crdSource.rank();}	// Checks whether two cards form a pair.
 
 void player::steal(player& plyOther)
 {

@@ -4,14 +4,14 @@
 classDiagram
     %% Core Card Entity
     class card {
-        -int iFigure
+        -int iRank
         -int iSuit
-        +card(int iFig, int iSt)
+        +card(int iRank, int iSt)
         +card(const card& crdOther)
         +operator=(const card& crdOther) card&
         +operator<(const card& crdOther) const bool
         +operator==(const card& other) const bool
-        +figure() const int
+        +rank() const int
         +suit() const int
     }
 
@@ -91,7 +91,7 @@ classDiagram
         CLUBS = 4
     }
 
-    class FigureEnum {
+    class RankEnum {
         <<enumeration>>
         JOKER = 0
         ACE = 1
@@ -132,7 +132,7 @@ classDiagram
 
     %% Associations with enums and constants
     card --> SuitEnum : uses
-    card --> FigureEnum : uses
+    card --> RankEnum : uses
     hand --> Constants : uses
     tray --> Constants : uses
     table --> Constants : uses
@@ -144,7 +144,7 @@ classDiagram
     
     note for deck "Factory Pattern: generates complete 54-card set\nwith Fisher-Yates shuffling"
     
-    note for player "Encapsulates game participant with stealing mechanics\nbased on figure matching"
+    note for player "Encapsulates game participant with stealing mechanics\nbased on rank matching"
     
     note for table "Game state orchestrator managing players,\ndeck distribution and tray coordination"
 ```
@@ -158,7 +158,7 @@ classDiagram
 
 ## Architecture Notes
 
-- **Core Entity**: `card` - Immutable game entity with figure/suit properties
+- **Core Entity**: `card` - Immutable game entity with rank/suit properties
 - **Container Hierarchy**: LIFO stack, factory deck, polymorphic selection containers
 - **Game Logic**: Player coordination and multi-player table management
 - **Extensibility**: Framework supports diverse card-based games through inheritance patterns
