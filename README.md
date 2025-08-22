@@ -14,7 +14,7 @@ This project showcases **enterprise-level C++ development** through a reusable c
 - **Comprehensive testing** with Boost Test framework
 
 **8 Core Classes:**
-- **`card`** - Immutable card entity with figure/suit properties
+- **`card`** - Immutable card entity with rank/suit properties
 - **`stack`** - LIFO container using STL stack
 - **`deck`** - Auto-shuffled card collection with Fisher-Yates algorithm
 - **`selection_container`** - Abstract base for selectable card containers

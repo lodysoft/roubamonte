@@ -54,7 +54,7 @@ The Roubamonte framework implements a sophisticated class hierarchy with proven 
 ### Class Categories
 
 #### Core Entities
-- **`card`** - Immutable game entity with figure/suit properties
+- **`card`** - Immutable game entity with rank/suit properties
 
 #### Container Hierarchy
 - **`stack`** - LIFO container using `std::stack<card>`

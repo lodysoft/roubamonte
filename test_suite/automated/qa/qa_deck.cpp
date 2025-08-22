@@ -37,7 +37,7 @@ BOOST_AUTO_TEST_CASE(test_deck_completeness)
     while(!dckDeck.isEmpty())
     {
         card crdCurrent = dckDeck.pop();
-        std::pair<int, int> cardPair = std::make_pair(crdCurrent.figure(), crdCurrent.suit());
+        std::pair<int, int> cardPair = std::make_pair(crdCurrent.rank(), crdCurrent.suit());
         cardSet.insert(cardPair);
     }
     
@@ -66,7 +66,7 @@ BOOST_AUTO_TEST_CASE(test_deck_standard_cards_present)
     while(!dckDeck.isEmpty())
     {
         card crdCurrent = dckDeck.pop();
-        foundCards.insert(std::make_pair(crdCurrent.figure(), crdCurrent.suit()));
+        foundCards.insert(std::make_pair(crdCurrent.rank(), crdCurrent.suit()));
     }
     
     // Check for jokers

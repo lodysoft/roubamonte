@@ -18,8 +18,8 @@ deck::deck()																		// Constructor.
 	vDeck.push_back(card(JOKER, BLACK));											// Creates the black joker.
 	
 	for(int iSuit = SPADES; iSuit <= CLUBS; iSuit++)								// Creates the cards.
-		for(int iFigure = ACE; iFigure <= KING; iFigure++)
-			vDeck.push_back(card(iFigure, iSuit));
+		for(int iRank = ACE; iRank <= KING; iRank++)
+			vDeck.push_back(card(iRank, iSuit));
 
 	std::shuffle(vDeck.begin(), vDeck.end(), std::default_random_engine(seed));		// Shuffles the cards.
 
