@@ -41,12 +41,6 @@
 *.bak
 
 # Test binaries
-card
-deck
-hand
-player
-stack
-table
+test_suite/bin/*
 
-
-/build
+build/

@@ -1,0 +1,37 @@
+  name: CI/CD
+
+  on:
+    push:
+      branches: [ main ]
+    pull_request:
+      branches: [ main ]
+
+  jobs:
+    test:
+      runs-on: ubuntu-latest
+
+      steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential g++ make libboost-test-dev
+
+      - name: Verify C++20 support
+        run: |
+          g++ --version
+          g++ -std=c++20 -E -x c++ - </dev/null >/dev/null && echo "✅ C++20 supported" || exit 1
+
+      - name: Build automated tests
+        working-directory: test_suite
+        run: |
+          make clean
+          make build-qa
+        env:
+          MAKEFLAGS: "-j2"
+
+      - name: Run automated tests
+        working-directory: test_suite
+        run: make qa

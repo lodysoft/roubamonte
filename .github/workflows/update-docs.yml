@@ -1,0 +1,63 @@
+name: Update Documentation
+
+on:
+  push:
+    branches: [ main ]
+    paths: 
+      - 'include/*.h'
+      - 'include/*.cpp'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'include/*.h' 
+      - 'include/*.cpp'
+
+jobs:
+  update-uml:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+    
+    - name: Count classes and generate stats
+      id: stats
+      run: |
+        CLASS_COUNT=$(find include/ -name "*.h" -exec grep -l "^class " {} \; | wc -l)
+        TOTAL_FILES=$(find . -name "*.cpp" -o -name "*.h" | wc -l)
+        echo "class_count=$CLASS_COUNT" >> $GITHUB_OUTPUT
+        echo "total_files=$TOTAL_FILES" >> $GITHUB_OUTPUT
+    
+    - name: Update class diagram
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const fs = require('fs');
+          
+          // Read current diagram
+          let diagramContent = fs.readFileSync('doc/class-diagram.md', 'utf8');
+          
+          // Add timestamp
+          const timestamp = new Date().toISOString().split('T')[0];
+          diagramContent = diagramContent.replace(
+            /---.*This diagram is automatically generated.*$/s,
+            `---\n*This diagram was last updated: ${timestamp} | Classes found: ${{ steps.stats.outputs.class_count }}*`
+          );
+          
+          // Write back
+          fs.writeFileSync('doc/class-diagram.md', diagramContent);
+    
+    - name: Commit changes
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add doc/class-diagram.md
+        git diff --staged --quiet || git commit -m "📊 Auto-update UML diagram [skip ci]"
+    
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: ${{ github.ref }}
