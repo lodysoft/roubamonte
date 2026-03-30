@@ -1,200 +1,200 @@
-// main.cpp — Phase 2 debug scene: shows adaptive layout for N players.
-// Press 2 / 3 / 4 to switch player count. ESC to exit.
+﻿// main.cpp — Phase 3 debug scene: animates cards dealing from the deck to
+// all player hand slots. Press SPACE to restart the deal. ESC to exit.
 
-#include <SFML/Graphics.hpp>
-#include <iostream>
+#include <functional>
+#include <memory>
 #include <string>
 #include <vector>
+
+#include <SFML/Graphics.hpp>
 
 #include "card.h"
 #include "deck.h"
 #include "card_sprite.h"
 #include "layout.h"
+#include "animator.h"
 
-// ── Build all card sprites for the current layout ─────────────────────────────
-static void build_scene(
-    const layout&                   lay,
-    const sf::Font&                 fntFont,
-    std::vector<card_sprite>&       vHandCards,
-    std::vector<card_sprite>&       vTrayCards,
-    card_sprite&                    sprDeck,
-    std::vector<sf::RectangleShape>& vStackBoxes,
-    std::vector<sf::Text>&          vPlayerLabels,
-    std::vector<sf::Text>&          vStackLabels,
-    sf::Text&                       txtDeckLabel)
+static const int   N_PLAYERS   = 2;
+static const float DEAL_DELAY  = 0.12f;
+static const float SLIDE_TIME  = 0.35f;
+
+// ── Deal sequence ─────────────────────────────────────────────────────────────
+// Queues one slide animation per hand slot in round-robin deal order.
+// A dummy wait animation on a scratch sprite spaces cards apart in time.
+static void queue_deal(
+    animator&                 anm,
+    std::vector<card_sprite>& vHandCards,
+    const layout&             lay,
+    card_sprite&              sprScratch)
 {
-    vHandCards.clear();
-    vTrayCards.clear();
-    vStackBoxes.clear();
-    vPlayerLabels.clear();
-    vStackLabels.clear();
+    anm.flush();
 
-    deck dckDeck;
+    const sf::Vector2f vDeckPos = lay.get_deck_position();
+    const int          iPlayers = lay.get_player_count();
+    const int          iEach    = (int)vHandCards.size() / iPlayers;
 
-    // ── Tray: 8 face-up cards ─────────────────────────────────────────────────
-    const int iTrayCount = 8;
-    std::vector<sf::Vector2f> vTrayPos = lay.get_tray_positions(iTrayCount);
-    for (int i = 0; i < iTrayCount; ++i)
+    // Round-robin destination order: P0s0, P1s0, P0s1, P1s1 …
+    std::vector<sf::Vector2f> vDests;
+    for (int slot = 0; slot < iEach; ++slot)
+        for (int p = 0; p < iPlayers; ++p)
+            vDests.push_back(lay.get_hand_positions(p)[slot]);
+
+    std::vector<card_sprite*> vOrdered;
+    for (int slot = 0; slot < iEach; ++slot)
+        for (int p = 0; p < iPlayers; ++p)
+            vOrdered.push_back(&vHandCards[p * iEach + slot]);
+
+    for (auto& spr : vHandCards)
+        spr.set_position(vDeckPos);
+
+    const int iTotal = (int)vDests.size();
+
+    struct deal_state
     {
-        card_sprite spr;
-        spr.set_card(dckDeck.pop(), fntFont);
-        spr.set_face_up(true);
-        spr.set_position(vTrayPos[i]);
-        vTrayCards.push_back(spr);
-    }
+        int                       iNext;
+        std::vector<card_sprite*> vPtrs;
+        std::vector<sf::Vector2f> vDests;
+        sf::Vector2f              vDeckPos;
+        animator*                 pAnm;
+        card_sprite*              pScratch;
+    };
 
-    // ── Deck pile ─────────────────────────────────────────────────────────────
-    sprDeck.set_card(card(ACE, SPADES), fntFont);
-    sprDeck.set_face_up(false);
-    sprDeck.set_position(lay.get_deck_position());
+    auto pSt = std::make_shared<deal_state>();
+    pSt->iNext    = 0;
+    pSt->vPtrs    = vOrdered;
+    pSt->vDests   = vDests;
+    pSt->vDeckPos = vDeckPos;
+    pSt->pAnm     = &anm;
+    pSt->pScratch = &sprScratch;
 
-    txtDeckLabel.setString("Deck");
-    txtDeckLabel.setPosition(sf::Vector2f(
-        lay.get_deck_position().x,
-        lay.get_deck_position().y - 18.0f
-    ));
-
-    // ── Per-player: hand cards + stack indicator + labels ─────────────────────
-    for (int p = 0; p < lay.get_player_count(); ++p)
+    // Recursive chain: each card queues a delay, then a slide, then the next card.
+    // fnNext is stored in the shared state so lambdas can reference it safely.
+    struct chain
     {
-        std::vector<sf::Vector2f> vHandPos = lay.get_hand_positions(p);
+        std::function<void()> fn;
+    };
 
-        // Face-down hand cards
-        for (const sf::Vector2f& vPos : vHandPos)
-        {
-            card_sprite spr;
-            spr.set_card(dckDeck.pop(), fntFont);
-            spr.set_face_up(false);
-            spr.set_position(vPos);
-            vHandCards.push_back(spr);
-        }
+    auto pChain = std::make_shared<chain>();
+    pChain->fn = [pSt, pChain, iTotal]()
+    {
+        if (pSt->iNext >= iTotal) return;
+        int i = pSt->iNext++;
+        pSt->pAnm->add(
+            pSt->pScratch, pSt->vDeckPos, pSt->vDeckPos, DEAL_DELAY,
+            [pSt, pChain, i]()
+            {
+                pSt->pAnm->add(
+                    pSt->vPtrs[i], pSt->vDeckPos, pSt->vDests[i], SLIDE_TIME,
+                    pChain->fn);
+            });
+    };
 
-        // Player label — above hand for bottom players, below for top players
-        sf::Text lblPlayer;
-        lblPlayer.setFont(fntFont);
-        lblPlayer.setString("Player " + std::to_string(p + 1));
-        lblPlayer.setCharacterSize(13);
-        lblPlayer.setFillColor(sf::Color(220, 220, 100));
-        if (!vHandPos.empty())
-        {
-            float fLabelY = (vHandPos[0].y < 80.0f)
-                ? vHandPos[0].y + CARD_HEIGHT + 4.0f
-                : vHandPos[0].y - 18.0f;
-            lblPlayer.setPosition(sf::Vector2f(vHandPos[0].x, fLabelY));
-        }
-        vPlayerLabels.push_back(lblPlayer);
-
-        // Stack indicator: semi-transparent rectangle with gold border
-        sf::RectangleShape rctStack(sf::Vector2f(CARD_WIDTH, CARD_HEIGHT));
-        rctStack.setPosition(lay.get_stack_position(p));
-        rctStack.setFillColor(sf::Color(0, 0, 0, 70));
-        rctStack.setOutlineColor(sf::Color(180, 150, 60, 200));
-        rctStack.setOutlineThickness(1.5f);
-        vStackBoxes.push_back(rctStack);
-
-        sf::Text lblStack;
-        lblStack.setFont(fntFont);
-        lblStack.setString("Stack P" + std::to_string(p + 1));
-        lblStack.setCharacterSize(11);
-        lblStack.setFillColor(sf::Color(180, 150, 60));
-        lblStack.setPosition(sf::Vector2f(
-            lay.get_stack_position(p).x,
-            lay.get_stack_position(p).y + CARD_HEIGHT / 2.0f - 7.0f
-        ));
-        vStackLabels.push_back(lblStack);
-    }
+    pChain->fn();
 }
 
 // ── Main ──────────────────────────────────────────────────────────────────────
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(1024, 768), "Roubamonte - Phase 2 Layout Test");
+    sf::RenderWindow window(sf::VideoMode(1024, 768), "Roubamonte - Phase 3 Animation Test");
     window.setFramerateLimit(60);
 
     sf::Font font;
     if (!font.loadFromFile("assets/fonts/consola.ttf"))
-    {
-        std::cerr << "Error loading font\n";
         return -1;
+
+    layout lay;
+    lay.compute(N_PLAYERS, window.getSize());
+
+    const sf::Vector2f vDeckPos = lay.get_deck_position();
+
+    // Deck pile sprite
+    card_sprite sprDeck;
+    sprDeck.set_card(card(ACE, SPADES), font);
+    sprDeck.set_face_up(false);
+    sprDeck.set_position(vDeckPos);
+
+    // Tray: 8 static face-up cards
+    deck dckSeed;
+    std::vector<card_sprite> vTrayCards;
+    for (const sf::Vector2f& vPos : lay.get_tray_positions(8))
+    {
+        card_sprite spr;
+        spr.set_card(dckSeed.pop(), font);
+        spr.set_face_up(true);
+        spr.set_position(vPos);
+        vTrayCards.push_back(spr);
     }
 
-    // Labels that persist across rebuilds
+    // Hand cards — start at deck, animated to slots
+    const int iEach = 4;
+    std::vector<card_sprite> vHandCards(N_PLAYERS * iEach);
+    for (int p = 0; p < N_PLAYERS; ++p)
+        for (int s = 0; s < iEach; ++s)
+        {
+            auto& spr = vHandCards[p * iEach + s];
+            spr.set_card(dckSeed.pop(), font);
+            spr.set_face_up(false);
+            spr.set_position(vDeckPos);
+        }
+
+    // Stack placeholder boxes
+    std::vector<sf::RectangleShape> vStackBoxes;
+    for (int p = 0; p < N_PLAYERS; ++p)
+    {
+        sf::RectangleShape rct(sf::Vector2f(CARD_WIDTH, CARD_HEIGHT));
+        rct.setPosition(lay.get_stack_position(p));
+        rct.setFillColor(sf::Color(0, 0, 0, 70));
+        rct.setOutlineColor(sf::Color(180, 150, 60, 200));
+        rct.setOutlineThickness(1.5f);
+        vStackBoxes.push_back(rct);
+    }
+
+    // Animator + off-screen scratch sprite for inter-card delays
+    animator    anm;
+    card_sprite sprScratch;
+    sprScratch.set_card(card(ACE, SPADES), font);
+    sprScratch.set_position(sf::Vector2f(-200.0f, -200.0f));
+
+    queue_deal(anm, vHandCards, lay, sprScratch);
+
     sf::Text txtHint;
     txtHint.setFont(font);
     txtHint.setCharacterSize(13);
     txtHint.setFillColor(sf::Color(180, 180, 180));
+    txtHint.setString("SPACE = restart deal  |  ESC = exit");
+    txtHint.setPosition(5.0f, (float)window.getSize().y - 22.0f);
 
-    sf::Text txtTrayLabel;
-    txtTrayLabel.setFont(font);
-    txtTrayLabel.setString("Tray");
-    txtTrayLabel.setCharacterSize(13);
-    txtTrayLabel.setFillColor(sf::Color(180, 220, 180));
-
-    sf::Text txtDeckLabel;
-    txtDeckLabel.setFont(font);
-    txtDeckLabel.setCharacterSize(13);
-    txtDeckLabel.setFillColor(sf::Color(180, 220, 180));
-
-    // Scene state
-    int                         iPlayerCount = 2;
-    layout                      lay;
-    std::vector<card_sprite>    vHandCards;
-    std::vector<card_sprite>    vTrayCards;
-    card_sprite                 sprDeck;
-    std::vector<sf::RectangleShape> vStackBoxes;
-    std::vector<sf::Text>       vPlayerLabels;
-    std::vector<sf::Text>       vStackLabels;
-
-    auto rebuild = [&]()
-    {
-        lay.compute(iPlayerCount, window.getSize());
-        build_scene(lay, font, vHandCards, vTrayCards, sprDeck,
-                    vStackBoxes, vPlayerLabels, vStackLabels, txtDeckLabel);
-
-        // Position tray label above the first tray card
-        std::vector<sf::Vector2f> vTrayPos = lay.get_tray_positions(8);
-        if (!vTrayPos.empty())
-            txtTrayLabel.setPosition(sf::Vector2f(vTrayPos[0].x, vTrayPos[0].y - 18.0f));
-
-        txtHint.setString(
-            "Press 2 / 3 / 4 to switch player count  |  ESC to exit  |  Players: "
-            + std::to_string(iPlayerCount));
-        txtHint.setPosition(5.0f, (float)window.getSize().y - 22.0f);
-    };
-
-    rebuild();
+    sf::Clock clkFrame;
 
     while (window.isOpen())
     {
+        const float fDelta = clkFrame.restart().asSeconds();
+
         sf::Event event;
         while (window.pollEvent(event))
         {
             if (event.type == sf::Event::Closed)
                 window.close();
-
             if (event.type == sf::Event::KeyPressed)
             {
-                if (event.key.code == sf::Keyboard::Escape) window.close();
-                if (event.key.code == sf::Keyboard::Num2)   { iPlayerCount = 2; rebuild(); }
-                if (event.key.code == sf::Keyboard::Num3)   { iPlayerCount = 3; rebuild(); }
-                if (event.key.code == sf::Keyboard::Num4)   { iPlayerCount = 4; rebuild(); }
+                if (event.key.code == sf::Keyboard::Escape)
+                    window.close();
+                if (event.key.code == sf::Keyboard::Space && !anm.isAnimating())
+                    queue_deal(anm, vHandCards, lay, sprScratch);
             }
         }
 
+        anm.update(fDelta);
+
         window.clear(sf::Color(34, 100, 34));
-
-        for (auto& spr : vTrayCards)    spr.draw(window);
+        for (auto& spr : vTrayCards)  spr.draw(window);
         sprDeck.draw(window);
-        for (auto& rct : vStackBoxes)   window.draw(rct);
-        for (auto& spr : vHandCards)    spr.draw(window);
-        for (auto& lbl : vPlayerLabels) window.draw(lbl);
-        for (auto& lbl : vStackLabels)  window.draw(lbl);
-        window.draw(txtTrayLabel);
-        window.draw(txtDeckLabel);
+        for (auto& rct : vStackBoxes) window.draw(rct);
+        for (auto& spr : vHandCards)  spr.draw(window);
         window.draw(txtHint);
-
         window.display();
     }
 
     return 0;
 }
+

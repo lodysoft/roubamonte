@@ -15,6 +15,7 @@ add_executable(roubamonte
     include/tray.cpp
     include/card_sprite.cpp
     include/layout.cpp
+    include/animator.cpp
 )
 
 include_directories(include)
