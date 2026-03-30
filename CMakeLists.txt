@@ -3,8 +3,21 @@ project(roubamonte)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(roubamonte main.cpp )
+add_executable(roubamonte
+    main.cpp
+    include/card.cpp
+    include/deck.cpp
+    include/hand.cpp
+    include/player.cpp
+    include/selection_container.cpp
+    include/stack.cpp
+    include/table.cpp
+    include/tray.cpp
+    include/card_sprite.cpp
+    include/layout.cpp
+)
 
+include_directories(include)
 include_directories(c:/SFML-2.6.1/include)
 
 set(SFML_ROOT c:/SFML-2.6.1)
