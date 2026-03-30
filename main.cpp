@@ -11,7 +11,7 @@ int main()
 {
     sf::RenderWindow window(sf::VideoMode(1024, 768), "Roubamonte");
     window.setFramerateLimit(60);
-
+ 
     sf::Font font;
     if (!font.loadFromFile("assets/fonts/consola.ttf"))
         return -1;
