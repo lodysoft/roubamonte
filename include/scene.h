@@ -57,6 +57,7 @@ private:
     std::vector<card_sprite>              vTraySprites;
     card_sprite                           sprDeck;
     std::vector<card_sprite>              vStackSprites;    // [player] — one face-down pile per player
+    std::vector<card_sprite>              vFlightSprites;   // Temporary copies of sprites animating after leaving their owner.
 
     // ── Interaction state ─────────────────────────────────────────────────────
 
@@ -68,6 +69,13 @@ private:
     const sf::Font* pFont;
     int             iPlayerCount;
     sf::Vector2u    vWinSize;
+
+    // ── Game-over overlay ─────────────────────────────────────────────────────
+
+    sf::RectangleShape       rctOverlay;
+    sf::Text                 txtOverlayTitle;
+    std::vector<sf::Text>    vTxtScores;
+    sf::Text                 txtOverlayHint;
 
     // ── Internal helpers ──────────────────────────────────────────────────────
 
@@ -100,6 +108,9 @@ private:
 
     // True when deck and all hands are empty.
     bool check_game_over() const;
+
+    // Build the game-over overlay texts from final stack counts.
+    void build_game_over_overlay();
 };
 
 #endif

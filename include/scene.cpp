@@ -70,6 +70,13 @@ void scene::handle_event(const sf::Event& evtEvent)
         return;
     }
 
+    if (evtEvent.type == sf::Event::KeyPressed)
+    {
+        if (evtEvent.key.code == sf::Keyboard::R && eState == estate::GAME_OVER)
+            init(*pFont, iPlayerCount, vWinSize);
+        return;
+    }
+
     if (evtEvent.type != sf::Event::MouseButtonPressed) return;
     if (evtEvent.mouseButton.button != sf::Mouse::Left)  return;
     if (eState == estate::ANIMATING || eState == estate::GAME_OVER) return;
@@ -122,6 +129,10 @@ void scene::draw(sf::RenderWindow& wndTarget)
         if (!pTable->getPlayers()[p].getStack().isEmpty())
             vStackSprites[p].draw(wndTarget);
 
+    // In-flight sprites (e.g. stolen stack animating to new owner).
+    for (auto& spr : vFlightSprites)
+        spr.draw(wndTarget);
+
     // Deck — only draw while cards remain.
     if (!pTable->getDeck().isEmpty())
         sprDeck.draw(wndTarget);
@@ -141,6 +152,16 @@ void scene::draw(sf::RenderWindow& wndTarget)
         spr.draw(wndTarget);
 
     hudDisplay.draw(wndTarget);
+
+    // Game-over overlay drawn on top of everything.
+    if (eState == estate::GAME_OVER)
+    {
+        wndTarget.draw(rctOverlay);
+        wndTarget.draw(txtOverlayTitle);
+        for (auto& txt : vTxtScores)
+            wndTarget.draw(txt);
+        wndTarget.draw(txtOverlayHint);
+    }
 }
 
 // ── Internal helpers ──────────────────────────────────────────────────────────
@@ -313,6 +334,8 @@ void scene::on_mouse_move(sf::Vector2f vPos)
 
 void scene::on_animation_done()
 {
+    vFlightSprites.clear();
+
     try_refill_and_check_end();
 
     if (eState != estate::GAME_OVER)
@@ -336,21 +359,7 @@ void scene::try_refill_and_check_end()
     if (check_game_over())
     {
         eState = estate::GAME_OVER;
-
-        int iWinner = 0;
-        int iMax    = 0;
-        for (int p = 0; p < iPlayerCount; ++p)
-        {
-            int iCount = pTable->getPlayers()[p].getStack().count();
-            if (iCount > iMax)
-            {
-                iMax    = iCount;
-                iWinner = p;
-            }
-        }
-
-        hudDisplay.set_status("Game Over!  Player " + std::to_string(iWinner + 1) +
-                              " wins with " + std::to_string(iMax) + " cards!");
+        build_game_over_overlay();
     }
 }
 
@@ -420,4 +429,81 @@ bool scene::check_game_over() const
     for (int p = 0; p < iPlayerCount; ++p)
         if (!pTable->getPlayers()[p].getHand().isEmpty()) return false;
     return true;
+}
+
+void scene::build_game_over_overlay()
+{
+    // Determine winner.
+    int iWinner = 0;
+    int iMax    = 0;
+    for (int p = 0; p < iPlayerCount; ++p)
+    {
+        int iCount = pTable->getPlayers()[p].getStack().count();
+        if (iCount > iMax) { iMax = iCount; iWinner = p; }
+    }
+
+    hudDisplay.set_status("Game Over!  Player " + std::to_string(iWinner + 1) +
+                          " wins with " + std::to_string(iMax) + " cards!  (R = play again)");
+
+    const float fW = (float)vWinSize.x;
+    const float fH = (float)vWinSize.y;
+
+    // Semi-transparent dark panel.
+    const float fPanelW = 400.0f;
+    const float fPanelH = 80.0f + iPlayerCount * 34.0f + 60.0f;
+    rctOverlay.setSize(sf::Vector2f(fPanelW, fPanelH));
+    rctOverlay.setFillColor(sf::Color(10, 10, 10, 210));
+    rctOverlay.setOutlineColor(sf::Color(255, 215, 0, 200));
+    rctOverlay.setOutlineThickness(2.0f);
+    rctOverlay.setPosition(fW / 2.0f - fPanelW / 2.0f, fH / 2.0f - fPanelH / 2.0f);
+
+    const float fCX    = fW / 2.0f;
+    float       fRowY  = fH / 2.0f - fPanelH / 2.0f + 22.0f;
+
+    // Title.
+    txtOverlayTitle.setFont(*pFont);
+    txtOverlayTitle.setCharacterSize(28u);
+    txtOverlayTitle.setFillColor(sf::Color(255, 215, 0));
+    txtOverlayTitle.setOutlineColor(sf::Color(0, 0, 0, 200));
+    txtOverlayTitle.setOutlineThickness(2.0f);
+    txtOverlayTitle.setString("GAME OVER");
+    sf::FloatRect rcT = txtOverlayTitle.getLocalBounds();
+    txtOverlayTitle.setOrigin(rcT.left + rcT.width / 2.0f, rcT.top + rcT.height / 2.0f);
+    txtOverlayTitle.setPosition(fCX, fRowY + 14.0f);
+
+    fRowY += 52.0f;
+
+    // Per-player score rows.
+    vTxtScores.clear();
+    vTxtScores.resize(iPlayerCount);
+    for (int p = 0; p < iPlayerCount; ++p)
+    {
+        int iCount = pTable->getPlayers()[p].getStack().count();
+        std::string strLabel = "Player " + std::to_string(p + 1) + ":  " +
+                               std::to_string(iCount) + " card" + (iCount != 1 ? "s" : "");
+        if (p == iWinner) strLabel += "  <-- WINNER";
+
+        vTxtScores[p].setFont(*pFont);
+        vTxtScores[p].setCharacterSize(18u);
+        vTxtScores[p].setFillColor(p == iWinner ? sf::Color(255, 215, 0) : sf::Color(210, 210, 210));
+        vTxtScores[p].setOutlineColor(sf::Color(0, 0, 0, 180));
+        vTxtScores[p].setOutlineThickness(1.5f);
+        vTxtScores[p].setString(strLabel);
+        sf::FloatRect rcS = vTxtScores[p].getLocalBounds();
+        vTxtScores[p].setOrigin(rcS.left + rcS.width / 2.0f, rcS.top + rcS.height / 2.0f);
+        vTxtScores[p].setPosition(fCX, fRowY);
+
+        fRowY += 34.0f;
+    }
+
+    // Hint.
+    txtOverlayHint.setFont(*pFont);
+    txtOverlayHint.setCharacterSize(14u);
+    txtOverlayHint.setFillColor(sf::Color(160, 160, 160));
+    txtOverlayHint.setOutlineColor(sf::Color(0, 0, 0, 160));
+    txtOverlayHint.setOutlineThickness(1.0f);
+    txtOverlayHint.setString("Press R to play again  |  ESC to quit");
+    sf::FloatRect rcH = txtOverlayHint.getLocalBounds();
+    txtOverlayHint.setOrigin(rcH.left + rcH.width / 2.0f, rcH.top + rcH.height / 2.0f);
+    txtOverlayHint.setPosition(fCX, fRowY + 10.0f);
 }
