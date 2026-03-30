@@ -39,8 +39,8 @@ card_sprite::card_sprite()
 // ── Public setters ────────────────────────────────────────────────────────────
 void card_sprite::set_card(const card& crdCard, const sf::Font& fntFont)
 {
-    std::string strRank = rank_to_string(crdCard.rank());
-    std::string strSuit = suit_to_string(crdCard.suit());
+    sf::String strRank = rank_to_string(crdCard.rank());
+    sf::String strSuit = suit_to_string(crdCard.suit());
     clrSuit = suit_to_color(crdCard.suit());
 
     txtRankTop.setFont(fntFont);
@@ -216,9 +216,9 @@ void card_sprite::update_layout()
 }
 
 // ── Static converters ─────────────────────────────────────────────────────────
-std::string card_sprite::rank_to_string(int iRank)
+sf::String card_sprite::rank_to_string(int iRank)
 {
-    if (iRank == JOKER) return "\xe2\x98\x85"; // ★
+    if (iRank == JOKER) return "J";
     if (iRank == ACE)   return "A";
     if (iRank == JACK)  return "J";
     if (iRank == QUEEN) return "Q";
@@ -226,16 +226,16 @@ std::string card_sprite::rank_to_string(int iRank)
     return std::to_string(iRank);
 }
 
-std::string card_sprite::suit_to_string(int iSuit)
+sf::String card_sprite::suit_to_string(int iSuit)
 {
     switch (iSuit)
     {
-        case SPADES:   return "\xe2\x99\xa0"; // ♠
-        case HEARTS:   return "\xe2\x99\xa5"; // ♥
-        case DIAMONDS: return "\xe2\x99\xa6"; // ♦
-        case CLUBS:    return "\xe2\x99\xa3"; // ♣
+        case SPADES:   return sf::String(static_cast<sf::Uint32>(0x2660)); // ♠
+        case HEARTS:   return sf::String(static_cast<sf::Uint32>(0x2665)); // ♥
+        case DIAMONDS: return sf::String(static_cast<sf::Uint32>(0x2666)); // ♦
+        case CLUBS:    return sf::String(static_cast<sf::Uint32>(0x2663)); // ♣
         case RED:
-        case BLACK:    return "\xe2\x98\x85"; // ★
+        case BLACK:    return "*";
         default:       return "?";
     }
 }

@@ -52,9 +52,9 @@ private:
     void update_style();                // Recalculate fill/outline colours for current state.
     void update_layout();               // Recalculate text positions from rctBody position.
 
-    static std::string rank_to_string(int iRank);
-    static std::string suit_to_string(int iSuit);
-    static sf::Color   suit_to_color(int iSuit);
+    static sf::String rank_to_string(int iRank);
+    static sf::String suit_to_string(int iSuit);
+    static sf::Color  suit_to_color(int iSuit);
 };
 
 #endif
